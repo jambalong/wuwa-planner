@@ -2,12 +2,12 @@
 service: wuwa_planner
 
 # Name of the container image (use your-user/app-name on external registries).
-image: wuwa_planner
+image: jambalong/wuwa_planner
 
 # Deploy to these servers.
 servers:
   web:
-    - 192.168.0.1
+    - 165.22.150.134
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -30,16 +30,17 @@ registry:
   server: localhost:5555
 
   # Needed for authenticated registries.
-  # username: your-user
+  username: jambalong
 
   # Always use an access token rather than real password when possible.
-  # password:
-  #   - KAMAL_REGISTRY_PASSWORD
+  password:
+    - KAMAL_REGISTRY_PASSWORD
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
   secret:
     - RAILS_MASTER_KEY
+    - POSTGRES_PASSWORD
   clear:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
@@ -118,3 +119,26 @@ builder:
 #     port: 6379
 #     directories:
 #       - data:/data
+accessories:
+  db:
+    image: postgres:17-alpine
+    host: 165.22.150.134
+    port: 5432
+    env:
+      clear:
+        POSTGRES_DB: wuwa_planner_production
+        POSTGRES_USER: rails
+      secret:
+        - POSTGRES_PASSWORD
+    volumes:
+      - /var/lib/postgresql/data:/var/lib/postgresql/data
+
+production:
+  <<: *default
+  database: wuwa_planner_production
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: rails
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
+  host: wuwa-planner-db
