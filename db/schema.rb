@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_14_084441) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_18_001058) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -33,7 +33,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_14_084441) do
   end
 
   create_table "materials", force: :cascade do |t|
+    t.string "category", null: false
     t.datetime "created_at", null: false
+    t.text "description"
     t.integer "exp_value", default: 0, null: false
     t.string "material_type", null: false
     t.string "name", null: false
@@ -62,8 +64,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_14_084441) do
   end
 
   create_table "resonators", force: :cascade do |t|
-    t.string "attribute_type", null: false
     t.datetime "created_at", null: false
+    t.string "element", null: false
     t.string "name", null: false
     t.integer "rarity", default: 4, null: false
     t.datetime "updated_at", null: false
