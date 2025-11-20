@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_19_234626) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_20_211333) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -239,6 +239,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_19_234626) do
     t.integer "quantity", default: 0, null: false
     t.integer "rarity", default: 1, null: false
     t.datetime "updated_at", null: false
+    t.integer "weapon_rarity", default: 4, null: false
   end
 
   create_table "weapon_material_maps", force: :cascade do |t|
