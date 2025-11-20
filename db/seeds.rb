@@ -3,6 +3,8 @@
 ActiveRecord::Base.transaction do
   puts "🌱 Seeding Database..."
 
+  $SEED_DATA = {}
+
   # 1. Find all .rb files in the db/seeds directory
   # 2. Sort them (so 01 runs before 02)
   # 3. Load them
