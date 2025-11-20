@@ -6,9 +6,6 @@
 # - Rectifiers
 #   - 5-stars
 #   - 4-stars
-#   - 3-stars
-#   - 2-stars
-#   - 1-stars
 
 # ===============================================
 # 02. WEAPONS
@@ -98,39 +95,6 @@ Weapon.find_or_initialize_by(name: "Sword#18").update!(
   rarity: 4
 )
 
-# 3-stars
-Weapon.find_or_initialize_by(name: "Guardian Sword").update!(
-  weapon_type: "Sword",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Originite: Type II").update!(
-  weapon_type: "Sword",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Sword of Night").update!(
-  weapon_type: "Sword",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Sword of Voyager").update!(
-  weapon_type: "Sword",
-  rarity: 3
-)
-
-# 2-stars
-Weapon.find_or_initialize_by(name: "Tyro Sword").update!(
-  weapon_type: "Sword",
-  rarity: 2
-)
-
-# 1-stars
-Weapon.find_or_initialize_by(name: "Training Sword").update!(
-  weapon_type: "Sword",
-  rarity: 1
-)
-
 # --- Broadblades ---
 # 5-stars
 Weapon.find_or_initialize_by(name: "Ages of Harvest").update!(
@@ -199,44 +163,6 @@ Weapon.find_or_initialize_by(name: "Waning Redshift").update!(
   rarity: 4
 )
 
-# 3-stars
-Weapon.find_or_initialize_by(name: "Beguiling Melody").update!(
-  weapon_type: "Broadblade",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Broadblade of Night").update!(
-  weapon_type: "Broadblade",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Broadblade of Voyager").update!(
-  weapon_type: "Broadblade",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Guardian Broadblade").update!(
-  weapon_type: "Broadblade",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Originite: Type I").update!(
-  weapon_type: "Broadblade",
-  rarity: 3
-)
-
-# 2-stars
-Weapon.find_or_initialize_by(name: "Tyro Broadblade").update!(
-  weapon_type: "Broadblade",
-  rarity: 2
-)
-
-# 1-stars
-Weapon.find_or_initialize_by(name: "Training Broadblade").update!(
-  weapon_type: "Broadblade",
-  rarity: 2
-)
-
 # --- Pistols ---
 # 5-stars
 Weapon.find_or_initialize_by(name: "Lux & Umbra").update!(
@@ -298,39 +224,6 @@ Weapon.find_or_initialize_by(name: "Thunderbolt").update!(
 Weapon.find_or_initialize_by(name: "Undying Flame").update!(
   weapon_type: "Pistols",
   rarity: 4
-)
-
-# 3-stars
-Weapon.find_or_initialize_by(name: "Guardian Pistols").update!(
-  weapon_type: "Pistols",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Originite: Type III").update!(
-  weapon_type: "Pistols",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Pistols of Night").update!(
-  weapon_type: "Pistols",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Pistols of Voyager").update!(
-  weapon_type: "Pistols",
-  rarity: 3
-)
-
-# 2-stars
-Weapon.find_or_initialize_by(name: "Tyro Pistols").update!(
-  weapon_type: "Pistols",
-  rarity: 2
-)
-
-# 1-stars
-Weapon.find_or_initialize_by(name: "Training Pistols").update!(
-  weapon_type: "Pistols",
-  rarity: 1
 )
 
 # --- Gauntlets --- }
@@ -399,39 +292,6 @@ Weapon.find_or_initialize_by(name: "Marcato").update!(
 Weapon.find_or_initialize_by(name: "Stonard").update!(
   weapon_type: "Gauntlets",
   rarity: 4
-)
-
-# 3-stars
-Weapon.find_or_initialize_by(name: "Gauntlets of Night").update!(
-  weapon_type: "Gauntlets",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Gauntlets of Voyager").update!(
-  weapon_type: "Gauntlets",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Guardian Gauntlets").update!(
-  weapon_type: "Gauntlets",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Originite: Type IV").update!(
-  weapon_type: "Gauntlets",
-  rarity: 3
-)
-
-# 2-stars
-Weapon.find_or_initialize_by(name: "Tyro Gauntlets").update!(
-  weapon_type: "Gauntlets",
-  rarity: 2
-)
-
-# 1-stars
-Weapon.find_or_initialize_by(name: "Training Gauntlets").update!(
-  weapon_type: "Gauntlets",
-  rarity: 1
 )
 
 # --- Rectifiers ---
@@ -520,39 +380,6 @@ Weapon.find_or_initialize_by(name: "Variation").update!(
 Weapon.find_or_initialize_by(name: "Waltz in Masquerade").update!(
   weapon_type: "Rectifier",
   rarity: 4
-)
-
-# 3-stars
-Weapon.find_or_initialize_by(name: "Guardian Rectifier").update!(
-  weapon_type: "Rectifier",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Originite: Type V").update!(
-  weapon_type: "Rectifier",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Rectifier of Night").update!(
-  weapon_type: "Rectifier",
-  rarity: 3
-)
-
-Weapon.find_or_initialize_by(name: "Rectifier of Voyager").update!(
-  weapon_type: "Rectifier",
-  rarity: 3
-)
-
-# 2-stars
-Weapon.find_or_initialize_by(name: "Tyro Rectifier").update!(
-  weapon_type: "Rectifier",
-  rarity: 2
-)
-
-# 1-stars
-Weapon.find_or_initialize_by(name: "Training Rectifier").update!(
-  weapon_type: "Rectifier",
-  rarity: 1
 )
 
 puts "  --> Weapons created succesfully."
