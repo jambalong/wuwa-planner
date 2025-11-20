@@ -24,14 +24,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_20_211333) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "level_costs", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "credit_cost", default: 0, null: false
-    t.integer "exp_required", default: 0, null: false
-    t.integer "level", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "materials", force: :cascade do |t|
     t.string "category", null: false
     t.datetime "created_at", null: false
@@ -49,6 +41,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_20_211333) do
     t.string "material_type", null: false
     t.integer "quantity", default: 0, null: false
     t.integer "rarity", default: 1, null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "resonator_level_costs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "credit_cost", default: 0, null: false
+    t.integer "exp_required", default: 0, null: false
+    t.integer "level", null: false
     t.datetime "updated_at", null: false
   end
 
