@@ -103,6 +103,7 @@ FLOWER_DATA = [
 
   # The Black Shores
   { name: "Nova", rarity: 1 },
+  { name: "Summer Flower", rarity: 1 },
 
   # Rinascita
   { name: "Afterlife", rarity: 1 },
@@ -197,13 +198,13 @@ seed_material_set(FORGERY_DROP_DATA, "ForgeryDrop", "Weapon and Skill Material")
 
 # --- Skill Upgrade Materials ---
 WEEKLY_BOSS_DROP_DATA = [
-  { name: "Monument Bell", rarity: 4 },
+  { name: "Curse of the Abyss", rarity: 4 }
   { name: "Dreamless Feather", rarity: 4 },
-  { name: "The Netherworld's Stare", rarity: 4 },
+  { name: "Monument Bell", rarity: 4 },
   { name: "Sentinel's Dagger", rarity: 4 },
+  { name: "The Netherworld's Stare", rarity: 4 },
   { name: "Unending Destruction", rarity: 4 },
   { name: "When Irises Bloom", rarity: 4 },
-  { name: "Curse of the Abyss", rarity: 4 }
 ].freeze
 
 seed_material_set(WEEKLY_BOSS_DROP_DATA, "WeeklyBossDrop", "Skill Upgrade Material")
