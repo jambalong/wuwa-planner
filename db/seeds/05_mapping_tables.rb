@@ -365,7 +365,7 @@ puts "  --> Resonator Material Maps created."
 # This method handles all Weapons and Enemy Drop requirements
 # It creates records in the WeaponMaterialMap table.
 def map_weapon_materials(material_set, weapon_array)
-    material_set.each_with_index do |material, idx|
+  material_set.each_with_index do |material, idx|
     rarity = idx + 2
 
     weapon_array.each do |weapon|
