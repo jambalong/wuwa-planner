@@ -19,6 +19,7 @@ WEAPON_DATA = {
       "Bloodpact's Pledge",
       "Defier's Thorn",
       "Emerald of Genesis",
+      "Emerald Sentence",
       "Red Spring",
       "Unflickering Valor"
     ],
