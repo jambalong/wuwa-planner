@@ -39,7 +39,8 @@ RESONATOR_DATA = {
     ],
     "Glacio" => [
       { name: "Carlotta", weapon_type: "Pistols" },
-      { name: "Lingyang", weapon_type: "Gauntlets" }
+      { name: "Lingyang", weapon_type: "Gauntlets" },
+      { name: "Zhezhi", weapon_type: "Rectifier" }
     ],
     "Havoc" => [
       { name: "Camellya", weapon_type: "Sword" },
