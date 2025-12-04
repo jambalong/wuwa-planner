@@ -664,7 +664,7 @@ def create_weapon_ascension_cost(stars, rank, type, rarity, quantity)
   ).update!(quantity: quantity)
 end
 
-WEAPON_ASCENSION_COSTS.each |cost|
+WEAPON_ASCENSION_COSTS.each do |cost|
   create_weapon_ascension_cost(cost[:stars], cost[:rank], cost[:type], cost[:rarity], cost[:quantity])
 end
 
