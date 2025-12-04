@@ -360,5 +360,119 @@ RESONATOR_MAPPING_DATA.each do |mapping|
 end
 
 puts "  --> Resonator Material Maps created."
-# TODO: Weapon Material Maps and Weapon Type Materials Map
+
+# --- 3. Map weapons to their unique material requirements ---
+# This method handles all Weapons and Enemy Drop requirements
+# It creates records in the WeaponMaterialMap table.
+def map_weapon_materials(material_set, weapon_array)
+    material_set.each_with_index do |material, idx|
+    rarity = idx + 2
+
+    weapon_array.each do |weapon|
+      WeaponMaterialMap.find_or_initialize_by(
+        weapon: weapon,
+        material_type: "EnemyDrop",
+        rarity: rarity
+      ).update!(material: material)
+    end
+  end
+end
+
+# Each material set contains an array of weapons that requires the material set
+WEAPON_MAPPING_DATA = {
+  MATERIALS[:whisperin_core_set] => [
+    # 5-Star
+    WEAPONS[:ages_of_harvest],
+    WEAPONS[:kumokiri],
+    WEAPONS[:lustrous_razor],
+    WEAPONS[:thunderflare_dominion],
+    WEAPONS[:verdant_summit],
+    WEAPONS[:wildfire_mark],
+    # 4-Star
+    WEAPONS[:aureate_zenith],
+    WEAPONS[:autumntrace],
+    WEAPONS[:broadblade41],
+    WEAPONS[:dauntless_evernight],
+    WEAPONS[:discord],
+    WEAPONS[:helios_cleaver],
+    WEAPONS[:meditations_on_mercy],
+    WEAPONS[:waning_redshift]
+  ].freeze,
+
+  MATERIALS[:howler_core_set] => [
+    # 5-Star
+    WEAPONS[:abyss_surges],
+    WEAPONS[:blazing_brilliance],
+    WEAPONS[:blazing_justice],
+    WEAPONS[:bloodpacts_pledge],
+    WEAPONS[:defiers_thorn],
+    WEAPONS[:emerald_of_genesis],
+    WEAPONS[:emerald_sentence],
+    WEAPONS[:moongazers_sigil],
+    WEAPONS[:red_spring],
+    WEAPONS[:tragicomedy],
+    WEAPONS[:unflickering_valor],
+    WEAPONS[:veritys_handle],
+    # 4-Star
+    WEAPONS[:aether_strike],
+    WEAPONS[:amity_accord],
+    WEAPONS[:celestial_spiral],
+    WEAPONS[:commando_of_conviction],
+    WEAPONS[:endless_collapse],
+    WEAPONS[:fables_of_wisdom],
+    WEAPONS[:feather_edge],
+    WEAPONS[:gauntlets21d],
+    WEAPONS[:hollow_mirage],
+    WEAPONS[:legend_of_drunken_hero],
+    WEAPONS[:lumingloss],
+    WEAPONS[:lunar_cutter],
+    WEAPONS[:marcato],
+    WEAPONS[:overture],
+    WEAPONS[:somnoire_anchor],
+    WEAPONS[:stonard],
+    WEAPONS[:sword18]
+  ].freeze,
+
+  MATERIALS[:ring_set] => [
+    # 5-Star
+    WEAPONS[:cosmic_ripples],
+    WEAPONS[:lethean_elegy],
+    WEAPONS[:luminous_hymn],
+    WEAPONS[:lux_umbra],
+    WEAPONS[:rime_draped_sprouts],
+    WEAPONS[:static_mist],
+    WEAPONS[:stellar_symphony],
+    WEAPONS[:stringmaster],
+    WEAPONS[:the_last_dance],
+    WEAPONS[:whispers_of_sirens],
+    WEAPONS[:woodland_aria],
+    # 4-Star
+    WEAPONS[:augment],
+    WEAPONS[:cadenza],
+    WEAPONS[:call_of_the_abyss],
+    WEAPONS[:comet_flare],
+    WEAPONS[:jinzhou_keeper],
+    WEAPONS[:novaburst],
+    WEAPONS[:oceans_gift],
+    WEAPONS[:pistols26],
+    WEAPONS[:radiant_dawn],
+    WEAPONS[:rectifier25],
+    WEAPONS[:relativistic_jet],
+    WEAPONS[:romance_in_farewell],
+    WEAPONS[:solar_flame],
+    WEAPONS[:thunderbolt],
+    WEAPONS[:undying_flame],
+    WEAPONS[:variation],
+    WEAPONS[:waltz_in_masquerade]
+  ].freeze
+}.freeze
+
+puts "  --> Mapping Weapon Materials..."
+WEAPON_MAPPING_DATA.each do |material_set, weapon_array|
+  map_weapon_materials(material_set, weapon_array)
+end
+
+puts "  --> Weapon Material Maps created."
+
+# TODO: Map Weapon Type to Forgery Drops
 
