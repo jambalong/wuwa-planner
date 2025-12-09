@@ -19,6 +19,10 @@ class ResonatorAscensionPlanner < ApplicationService
     validate_inputs!
 
     calculate_leveling_costs
+
+  rescue => e
+    Rails.logger.error("ResonatorAscensionPlanner Error: #{e.message}")
+    raise
   end
 
   private
@@ -37,14 +41,14 @@ class ResonatorAscensionPlanner < ApplicationService
     # this checks for impossible downgrades (level and ascension rank)
     if @target_level < @current_level &&
        @target_ascension_rank < @current_ascension_rank
-      errors << "Target value must be greater than or equal to corresponding current value"
+      errors << "Target level value must be greater than or equal to current level value"
     end
 
     @current_skill_levels.each do |skill_name, current_level|
       target_level = @target_skill_levels[skill_name]
 
       if target_level && target_level < current_level
-        errors << "Target value must be greater than or equal to corresponding current value"
+        errors << "Target skill level value must be greater than or equal to current skill level value"
       end
     end
 
@@ -52,7 +56,7 @@ class ResonatorAscensionPlanner < ApplicationService
       target_upgrade = @target_forte_nodes[node_name]
 
       if target_upgrade && target_upgrade < current_upgrade
-        errors << "Target value must be greater than or equal to corresponding current value"
+        errors << "Target forte nodes value must be greater than or equal to current forte nodes value"
       end
     end
 
