@@ -14,4 +14,46 @@ class ResonatorAscensionPlanner < ApplicationService
 
     @materials_totals = Hash.new(0)
   end
+
+  def call
+    validate_inputs!
+  end
+
+  private
+
+  def validate_inputs!
+    errors = []
+
+    # this checks for a zero-change plan
+    if @current_level == @target_level &&
+       @current_ascension_rank == @target_ascension_rank &&
+       @current_skill_levels == @target_skill_levels &&
+       @current_forte_nodes == @target_forte_nodes
+      errors << "Atleast one target value must be different from corresponding current value"
+    end
+
+    # this checks for impossible downgrades (level and ascension rank)
+    if @target_level < @current_level &&
+       @target_ascension_rank < @current_ascension_rank
+      errors << "Target value must be greater than or equal to corresponding current value"
+    end
+
+    @current_skill_levels.each do |skill_name, current_level|
+      target_level = @target_skill_levels[skill_name]
+
+      if target_level && target_level < current_level
+        errors << "Target value must be greater than or equal to corresponding current value"
+      end
+    end
+
+    @current_forte_nodes.each do |node_name, current_upgrade|
+      target_upgrade = @target_forte_nodes[node_name]
+
+      if target_upgrade && target_upgrade < current_upgrade
+        errors << "Target value must be greater than or equal to corresponding current value"
+      end
+    end
+
+    raise "Input Validation Error: #{errors.join('; ')}" unless errors.empty?
+  end
 end
