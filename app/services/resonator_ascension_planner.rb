@@ -107,4 +107,44 @@ class ResonatorAscensionPlanner < ApplicationService
       end
     end
   end
+
+  def calculate_skill_leveling_costs
+    material_maps_data = ResonatorMaterialMap.where(resonator_id: @resonator.id).to_a
+    forgery_material_maps_data = WeaponTypeMaterial.where(weapon_type: @resonator.weapon_type).to_a
+
+    @current_skill_levels.each do |skill_name, current_level|
+      target_level = @target_skill_levels[skill_name]
+      next unless target_level && target_level > current_level
+
+      required_level_range = (current_level + 1..target_level)
+      skill_leveling_costs_data = SkillCost.where(level: required_level)
+
+      skill_leveling_costs_data.each do |cost_record|
+        if cost_record.material_type == "Credit"
+          @materials_totals[SHELL_CREDIT_ID] += cost_record.quantity
+          next
+        end
+
+        if cost_record.material_type == "ForgeryDrop"
+          forgery_material_map = forgery_material_maps_data.find do |forgery_record|
+            forgery_record.rarity == cost_record.rarity
+          end
+
+          if forgery_material_map
+            @materials_totals[forgery_material_map.material_id] += cost_record.quantity
+          end
+          next
+        end
+      end
+
+      material_map = material_maps_data.find do |map_record|
+        map_record.material_type == cost_record.material_type &&
+        map_record.rarity == cost_record.rarity
+      end
+
+      if material_map
+        @materials_totals[material.material_id] += cost_record.quantity
+      end
+    end
+  end
 end
