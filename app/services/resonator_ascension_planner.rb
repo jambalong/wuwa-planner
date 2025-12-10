@@ -19,6 +19,7 @@ class ResonatorAscensionPlanner < ApplicationService
     validate_inputs!
 
     calculate_leveling_costs
+    calculate_ascension_costs
 
   rescue => e
     Rails.logger.error("ResonatorAscensionPlanner Error: #{e.message}")
@@ -79,5 +80,29 @@ class ResonatorAscensionPlanner < ApplicationService
   def convert_exp_to_potions(total_exp)
     potion = Material.find_by(name: "Basic Resonance Potion")
     @materials_totals[potion.id] += total_exp / potion.exp_value
+  end
+
+  def calculate_ascension_costs
+    rover_resonators = [ "Rover-Aero", "Rover-Havoc", "Rover-Spectro" ]
+    ascension_costs_model = rover_resonators.include?(@resonator.name) ? RoverAscensionCost : ResonatorAscensionCost
+    required_ascension_rank = (@current_ascension_rank + 1..@target_ascension_rank)
+    ascension_costs_data = ascension_cost_model.where(ascension_rank: required_ascension_rank)
+    material_maps_data = ResonatorMaterialMap.where(resonator_id: @resonator.id).to_a
+
+    ascension_costs_data.each do |cost_record|
+      if cost_record.material_type == "Credit"
+        @materials_totals[SHELL_CREDIT_ID] += cost_record.quantity
+        next
+      end
+
+      material = material_maps_data.find do |map_record|
+        map_record.material_type == cost_record.material_type &&
+        map_record.rarity == cost_record.rarity
+      end
+
+      if material
+        @materials_totals[material.id] += cost_record.quantity
+      end
+    end
   end
 end
