@@ -70,7 +70,7 @@ class ResonatorAscensionPlanner < ApplicationService
 
     level_costs.each do |cost|
       total_exp += cost.required_exp
-      @materials_totals[:SHELL_CREDIT_ID]+= cost.credit_cost
+      @materials_totals[:SHELL_CREDIT_ID] += cost.credit_cost
     end
 
     @materials_totals[:SHELL_CREDIT_ID] += total_credit
