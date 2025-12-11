@@ -130,8 +130,8 @@ class ResonatorAscensionPlanner < ApplicationService
   end
 
   def calculate_skill_leveling_costs
-    materials_to_resonator = ResonatorMaterialMap.where(resonator_id: @resonator.id).to_a
-    materials_to_weapon_type = WeaponTypeMaterial.where(weapon_type: @resonator.weapon_type).to_a
+    materials_by_resonator = ResonatorMaterialMap.where(resonator_id: @resonator.id).to_a
+    materials_by_weapon_type = WeaponTypeMaterial.where(weapon_type: @resonator.weapon_type).to_a
 
     @current_skill_levels.each do |skill_name, current_level|
       target_level = @target_skill_levels[skill_name]
@@ -147,7 +147,7 @@ class ResonatorAscensionPlanner < ApplicationService
         end
 
         if skill_cost.material_type == "ForgeryDrop"
-          found_map = materials_to_weapon_type.find do |map_record|
+          found_map = materials_by_weapon_type.find do |map_record|
             map_record.rarity == skill_cost.rarity
           end
 
@@ -157,7 +157,7 @@ class ResonatorAscensionPlanner < ApplicationService
           next
         end
 
-        found_map = materials_to_resonator.find do |map_record|
+        found_map = materials_by_resonator.find do |map_record|
           map_record.material_type == skill_cost.material_type &&
           map_record.rarity == skill_cost.rarity
         end
