@@ -168,4 +168,46 @@ class ResonatorAscensionPlanner < ApplicationService
       end
     end
   end
+
+  def calculate_forte_node_costs
+    materials_by_resonator = ResonatorMaterialMap.where(resonator_id: @resonator.id).to_a
+    materials_by_weapon_type = WeaponTypeMaterial.where(weapon_type: @resonator.weapon_type).to_a
+
+    @current_forte_nodes.each do |node_identifier, current_state|
+      target_state = @target_forte_nodes[node_identifier]
+      next unless current_state == 0 && target_state == 1
+
+      cost_identifier = FORTE_NODES_MAP[node_identifier]
+      next unless cost_identifier.present?
+
+      forte_node_costs = ForteNodeCost.where(node_identifier: node_identifier)
+
+      forte_node_costs.each do |forte_node_cost|
+        if forte_node_cost.material_type == "Credit"
+          @materials_totals[SHELL_CREDIT_ID] += forte_node_cost.quantity
+          next
+        end
+
+        if forte_node_cost.material_type == "ForgeryDrop"
+          found_map = materials_by_weapon_type.find do |map_record|
+            map_record.rarity == forte_node_cost.rarity
+          end
+
+          if found_map
+            @materials_totals[found_map.material_id] += forte_node_cost.quantity
+          end
+          next
+        end
+
+        found_map = materials_by_resonator.find do |map_record|
+          map_record.material_type == skill_cost.material_type &&
+          map_record.rarity == skill_cost.rarity
+        end
+
+        if found_map
+          @materials_totals[found_map.material_id] += forte_node_cost.quantity
+        end
+      end
+    end
+  end
 end
