@@ -180,7 +180,7 @@ class ResonatorAscensionPlanner < ApplicationService
       cost_identifier = FORTE_NODES_MAP[node_identifier]
       next unless cost_identifier.present?
 
-      forte_node_costs = ForteNodeCost.where(node_identifier: node_identifier)
+      forte_node_costs = ForteNodeCost.where(node_identifier: cost_identifier)
 
       forte_node_costs.each do |forte_node_cost|
         if forte_node_cost.material_type == "Credit"
@@ -200,8 +200,8 @@ class ResonatorAscensionPlanner < ApplicationService
         end
 
         found_map = materials_by_resonator.find do |map_record|
-          map_record.material_type == skill_cost.material_type &&
-          map_record.rarity == skill_cost.rarity
+          map_record.material_type == forte_node_cost.material_type &&
+          map_record.rarity == forte_node_cost.rarity
         end
 
         if found_map
