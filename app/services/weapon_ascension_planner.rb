@@ -16,6 +16,13 @@ class WeaponAscensionPlanner < ApplicationService
 
   def call
     validate_inputs!
+
+    calculate_leveling_costs
+
+    @materials_totals
+  rescue => e
+    Rails.logger.error("ResonatorAscensionPlanner Error: #{e.message}")
+    raise
   end
 
   private
@@ -39,5 +46,23 @@ class WeaponAscensionPlanner < ApplicationService
     end
 
     raise "Input Validation Error: #{errors.join('; ')}" unless errors.empty?
+  end
+
+  def calculate_leveling_costs
+    required_levels = (@current_level + 1)..@target_level
+    level_costs = WeaponLevelCost.find_by(level: required_levels)
+    total_exp_required = 0
+
+    level_costs.each do |level_cost|
+      total_exp_required += level_cost.exp_required
+      @materials_totals[SHELL_CREDIT_ID] += level_cost.credit_cost
+    end
+
+    convert_exp_to_potions(total_exp_required)
+  end
+
+  def convert_exp_to_potions(total_exp_required)
+    basic_potion = Material.find_by(name: "Basic Energy Core")
+    @materials_totals[basic_potion.id] += total_exp_required / basic_potion.exp_value
   end
 end
