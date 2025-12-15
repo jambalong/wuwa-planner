@@ -127,8 +127,8 @@ class ResonatorAscensionPlanner < ApplicationService
     rover_resonators = [ "Rover-Aero", "Rover-Havoc", "Rover-Spectro" ]
     ascension_cost_model = rover_resonators.include?(@resonator.name) ? RoverAscensionCost : ResonatorAscensionCost
 
-    required_ascension_rank = (@current_ascension_rank + 1..@target_ascension_rank)
-    ascension_costs = ascension_cost_model.where(ascension_rank: required_ascension_rank)
+    required_ascension_ranks = (@current_ascension_rank + 1)..@target_ascension_rank
+    ascension_costs = ascension_cost_model.where(ascension_rank: required_ascension_ranks)
     materials_by_resonator = ResonatorMaterialMap.where(resonator_id: @resonator.id).to_a
 
     ascension_costs.each do |ascension_cost|
@@ -156,7 +156,7 @@ class ResonatorAscensionPlanner < ApplicationService
       target_level = @target_skill_levels[skill_name]
       next unless target_level && target_level > current_level
 
-      required_level_range = (current_level + 1..target_level)
+      required_level_range = (current_level + 1)..target_level
       skill_costs = SkillCost.where(level: required_level_range)
 
       skill_costs.each do |skill_cost|
