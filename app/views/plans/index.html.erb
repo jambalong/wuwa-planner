@@ -1,4 +1,17 @@
-<div>
-  <h1 class="font-bold text-4xl">Plans#index</h1>
-  <p>Find me in app/views/plans/index.html.erb</p>
+<div class="container">
+  <h1>Ascension Planner</h1>
+
+  <%= link_to "Create New Plan", new_plan_path,
+  data: { turbo_frame: "modal" },
+  class: "btn btn-primary"%>
+
+  <div id="plans_list_container">
+    <h2>Your Plans</h2>
+
+    <turbo-frame id="plans_list">
+      <%= render @plans %>
+    </turbo-frame>
+  </div>
 </div>
+
+<turbo-frame id="modal"></turbo-frame>
