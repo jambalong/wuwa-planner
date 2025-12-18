@@ -1,0 +1,11 @@
+<div class="plan-card">
+  <strong><%= plan.plan_data.dig("input", "name") %></strong>
+  <div class="materials-grid">
+    <% plan.plan_data.dig("output").each do |material_name, quantity| %>
+      <div class="flex justify-between">
+        <span><%= material_name %></span>
+        <span>x<%= quantity %></span>
+      </div>
+    <% end %>
+  </div>
+</div>
