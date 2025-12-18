@@ -1,4 +1,6 @@
 class ResonatorAscensionPlanner < ApplicationService
+  class ValidationError < StandardError; end
+
   SHELL_CREDIT_ID = Material.find_by(name: "Shell Credit").id
 
   ASCENSION_LEVEL_CAP = {
@@ -48,6 +50,8 @@ class ResonatorAscensionPlanner < ApplicationService
     calculate_forte_node_costs
 
     @materials_totals
+  rescue ValidationError => e
+    raise e
   rescue => e
     Rails.logger.error("ResonatorAscensionPlanner Error: #{e.message}")
     raise
@@ -66,9 +70,31 @@ class ResonatorAscensionPlanner < ApplicationService
       errors << "At least one target value must be different from the corresponding current value to generate a plan."
     end
 
+    # this checks for proper level range
+    unless @current_level.between?(1, 90)
+      errors << "Current Level (#{@current_level}) must be between 1 and 90."
+    end
+
+    unless @target_level.between?(1, 90)
+      errors << "Target Level (#{@target_level}) must be between 1 and 90."
+    end
+
+    # this checks for proper skill level range
+    @current_skill_levels.each do |skill_name, level|
+      unless level.between?(1, 10)
+        errors << "Current '#{skill_name.to_s.titleize}' level must be between 1 and 10."
+      end
+    end
+
+    @target_skill_levels.each do |skill_name, level|
+      unless level.between?(1, 10)
+        errors << "Target '#{skill_name.to_s.titleize}' level must be between 1 and 10."
+      end
+    end
+
     # this checks for impossible downgrades (level and ascension rank)
     if @target_level < @current_level
-      errors << "Target Level (#{@target_level}) cannot be less than Current Level (#{@current_level})."
+      errors << "Target level (#{@target_level}) cannot be less than current level (#{@current_level})."
     end
 
     if @target_ascension_rank < @current_ascension_rank
@@ -77,12 +103,12 @@ class ResonatorAscensionPlanner < ApplicationService
 
     current_max_level = ASCENSION_LEVEL_CAPS[@current_ascension_rank]
     if current_max_level.nil? || @current_level > current_max_level
-      errors << "Current Level (#{@current_level}) is impossible with Current Ascension Rank (#{@current_ascension_rank}). Max level is #{current_max_level || 'N/A'}."
+      errors << "Current level (#{@current_level}) is impossible with current ascension rank (#{@current_ascension_rank}). Max level is #{current_max_level || 'N/A'}."
     end
 
     target_max_level = ASCENSION_LEVEL_CAPS[@target_ascension_rank]
     if target_max_level.nil? || @target_level > target_max_level
-      errors << "Target Level (#{@target_level}) is impossible with Target Ascension Rank (#{@target_ascension_rank}). Max level is #{target_max_level || 'N/A'}."
+      errors << "Target level (#{@target_level}) is impossible with target ascension rank (#{@target_ascension_rank}). Max level is #{target_max_level || 'N/A'}."
     end
 
     # this checks for impossible downgrades (skill and forte nodes)
@@ -90,7 +116,7 @@ class ResonatorAscensionPlanner < ApplicationService
       target_level = @target_skill_levels[skill_name]
 
       if target_level && target_level < current_level
-        errors << "Target Level for '#{skill_name}' is #{target_level}, which is less than Current Level (#{current_level}). Downgrades are not allowed."
+        errors << "Target level for '#{skill_name.to_s.titleize}' is #{target_level}, which is less than Current Level (#{current_level}). Downgrades are not allowed."
       end
     end
 
@@ -98,11 +124,11 @@ class ResonatorAscensionPlanner < ApplicationService
       target_upgrade = @target_forte_nodes[node_name]
 
       if target_upgrade && target_upgrade < current_upgrade
-        errors << "arget state for '#{node_name}' is Locked (0), which is less than Current state (1). Downgrades are not allowed."
+        errors << "Target state for '#{node_name.to_s.titleize}' is Locked (0), which is less than Current state (1). Downgrades are not allowed."
       end
     end
 
-    raise "Input Validation Error: #{errors.join('; ')}" unless errors.empty?
+    raise ValidationError, errors.join("|") unless errors.empty?
   end
 
   def calculate_leveling_costs
