@@ -1,8 +1,6 @@
 class ResonatorAscensionPlanner < ApplicationService
   class ValidationError < StandardError; end
 
-  SHELL_CREDIT_ID = Material.find_by(name: "Shell Credit").id
-
   ASCENSION_LEVEL_CAP = {
     0 => 20, 1 => 40, 2 => 50, 3 => 60, 4 => 70, 5 => 80, 6 => 90
   }
@@ -131,6 +129,22 @@ class ResonatorAscensionPlanner < ApplicationService
     raise ValidationError, errors.join("|") unless errors.empty?
   end
 
+  def self.shell_credit_id
+    @shell_credit_id ||= Material.find_by!(name: "Shell Credit").id
+  end
+
+  def self.basic_potion
+    @basic_potion ||= Material.find_by!(name: "Basic Resonance Potion").id
+  end
+
+  def shell_credit_id
+    self.shell_credit_id
+  end
+
+  def basic_potion
+    self.basic_potion
+  end
+
   def calculate_leveling_costs
     required_levels = (@current_level + 1)..@target_level
     level_costs = ResonatorLevelCost.where(level: required_levels)
@@ -138,15 +152,14 @@ class ResonatorAscensionPlanner < ApplicationService
 
     level_costs.each do |level_cost|
       total_exp_required += level_cost.exp_required
-      @materials_totals[SHELL_CREDIT_ID] += level_cost.credit_cost
+      @materials_totals[shell_credit_id] += level_cost.credit_cost
     end
 
     convert_exp_to_potions(total_exp_required)
   end
 
   def convert_exp_to_potions(total_exp_required)
-    basic_potion = Material.find_by(name: "Basic Resonance Potion")
-    @materials_totals[basic_potion.id] += total_exp_required / basic_potion.exp_value
+    @materials_totals[basic_potion.id] += (total_exp_required / basic_potion.exp_value).to_i
   end
 
   def calculate_ascension_costs
@@ -159,7 +172,7 @@ class ResonatorAscensionPlanner < ApplicationService
 
     ascension_costs.each do |ascension_cost|
       if ascension_cost.material_type == "Credit"
-        @materials_totals[SHELL_CREDIT_ID] += ascension_cost.quantity
+        @materials_totals[shell_credit_id] += ascension_cost.quantity
         next
       end
 
@@ -187,7 +200,7 @@ class ResonatorAscensionPlanner < ApplicationService
 
       skill_costs.each do |skill_cost|
         if skill_cost.material_type == "Credit"
-          @materials_totals[SHELL_CREDIT_ID] += skill_cost.quantity
+          @materials_totals[shell_credit_id] += skill_cost.quantity
           next
         end
 
@@ -229,7 +242,7 @@ class ResonatorAscensionPlanner < ApplicationService
 
       forte_node_costs.each do |forte_node_cost|
         if forte_node_cost.material_type == "Credit"
-          @materials_totals[SHELL_CREDIT_ID] += forte_node_cost.quantity
+          @materials_totals[shell_credit_id] += forte_node_cost.quantity
           next
         end
 
