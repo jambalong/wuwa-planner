@@ -161,6 +161,7 @@ class ResonatorAscensionPlanner < ApplicationService
           map.material_type == cost.material_type &&
           map.rarity == cost.rarity
         end&.material_id
+
         @materials_totals[material_id] += cost.quantity if material_id
       end
     end
