@@ -9,6 +9,75 @@ class PlansController < ApplicationController
   end
 
   def create
+    plan_type = params[:plan_type]
+
+    begin
+      if plan_type == "Resonator"
+        item = Resonator.find_by!(id: params[:resonator_id])
+        planner = ResonatorAscensionPlanner.new(
+          resonator: resonator,
+          current_level: params[:current_level],
+          target_level: params[:target_level],
+          current_ascension_rank: params[:current_ascension_rank],
+          target_ascension_rank: params[:target_ascension_rank],
+          current_skill_levels: params[:current_skill_levels] || {},
+          target_skill_levels: params[:target_skill_levels] || {},
+          current_forte_nodes: params[:current_forte_nodes] || {},
+          target_forte_nodes: params[:target_forte_nodes] || {}
+        )
+      else
+        item = Weapon.find_by!(id: params[:weapon_id])
+        planner = WeaponAscensionPlanner.new(
+          weapon: weapon,
+          current_level: params[:current_level],
+          target_level: params[:target_level],
+          current_ascension_rank: params[:current_ascension_rank],
+          target_ascension_rank: params[:target_ascension_rank]
+        )
+      end
+
+      output_data = planner.call
+
+      input_data = {
+        name: item.name,
+        current_level: params[:current_level],
+        target_level: params[:target_level],
+        current_ascension_rank: params[:current_ascension_rank],
+        target_ascension_rank: params[:target_ascension_rank]
+      }
+
+      if plan_type == "Resonator"
+        input_data.merge!({
+          current_skill_levels: params[:current_skill_levels],
+          target_skill_levels: params[:target_skill_levels],
+          current_forte_nodes: params[:current_forte_nodes],
+          target_forte_nodes: params[:target_forte_nodes]
+        })
+      end
+
+      @plan = Plan.new(
+        planner_id: @planner_id,
+        plan_type: plan_type,
+        plan_data: {
+          input: input_data,
+          output: output_data
+        }
+      )
+
+      if @plan.save
+        respond_to do |format|
+          format.turbo_stream
+          format.html { redirect_to plans_path }
+        end
+      end
+
+    rescue ResonatorAscensionPlanner::ValidationError, WeaponAscensionPlanner::ValidationError => e
+      @errors = e.message.split("|")
+      render_form_with_errors
+    rescue ActiveRecord::RecordNotFound
+      @errors = [ "Please select a valid #{plan_type}." ]
+      render_form_with_errors
+    end
   end
 
   private
