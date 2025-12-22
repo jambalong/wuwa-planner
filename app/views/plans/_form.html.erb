@@ -1,38 +1,50 @@
-<%= form_with url: plans_path, data: { controller: "plan_form" } do |f| %>
-  <div>
-    <%= f.label :plan_type %>
-    <%= f.select :plan_type,
-             %w[Resonator Weapon],
-             {},
-             data: {
-               action: "change->plan-form#toggleFields",
-               plan_form_target: "typeSelect",
-             } %>
-  </div>
+<div id="plan-form-frame">
+  <% if local_assigns[:errors].present? %>
+    <div class="error-box">
+      <strong>Fix errors:</strong>
+      <ul>
+        <% errors.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-  <%# Resonator Section %>
-  <div data-plan-form-target="resonatorFields">
-    <%= f.label :resonator_id %>
-    <%= f.collection_select :resonator_id,
-                        Resonator.order(:name),
-                        :id,
-                        :name,
-                        { prompt: "Choose a Resonator" },
-                        { class: "w-full border p-2 rounded" } %>
-    <%# Add levels/skills here %>
-  </div>
+  <%= form_with url: plans_path, data: { controller: "plan-form" } do |f| %>
+    <div>
+      <%= f.label :plan_type %>
+      <%= f.select :plan_type,
+               %w[Resonator Weapon],
+               {},
+               data: {
+                 action: "change->plan-form#toggleFields",
+                 plan_form_target: "typeSelect",
+               } %>
+    </div>
 
-  <%# Weapon Section %>
-  <div data-plan-form-target="weaponFields" class="hidden">
-    <%= f.label :weapon_id %>
-    <%= f.collection_select :weapon_id,
-                        Weapon.order(:name),
-                        :id,
-                        :name,
-                        { prompt: "Choose a Resonator" },
-                        { class: "w-full border p-2 rounded" } %>
-    <%# Add levels here %>
-  </div>
+    <%# Resonator Section %>
+    <div data-plan-form-target="resonatorFields">
+      <%= f.label :resonator_id %>
+      <%= f.collection_select :resonator_id,
+                          Resonator.order(:name),
+                          :id,
+                          :name,
+                          { prompt: "Choose a Resonator..." } %>
+      <%# Add levels/skills here %>
+    </div>
 
-  <%= f.submit "New Plan" %>
-<% end %>
+    <%# Weapon Section %>
+    <div data-plan-form-target="weaponFields" class="hidden">
+      <%= f.label :weapon_id %>
+      <%= f.collection_select :weapon_id,
+                          Weapon.order(:name),
+                          :id,
+                          :name,
+                          { prompt: "Choose a Resonator" },
+                          { class: "w-full border p-2 rounded" } %>
+      <%# Add levels here %>
+    </div>
+
+    <%= f.submit "New Plan" %>
+  <% end %>
+</div>

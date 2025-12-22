@@ -90,7 +90,7 @@ class PlansController < ApplicationController
   def render_form_with_errors
     respond_to do |format|
       format.turbo_stream {
-        render turbo_stream: turbo_stream.replace("plan_form_frame",
+        render turbo_stream: turbo_stream.replace("plan-form-frame",
                partial: "plans/form",
                locals: { errors: @errors })
       }
