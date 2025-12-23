@@ -108,7 +108,7 @@ class WeaponAscensionPlanner < ApplicationService
 
   def calculate_leveling_costs
     required_levels = (@current_level + 1)..@target_level
-    level_costs = WeaponLevelCost.find_by(level: required_levels)
+    level_costs = WeaponLevelCost.where(level: required_levels)
     total_exp_required = 0
 
     level_costs.each do |level_cost|
