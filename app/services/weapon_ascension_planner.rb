@@ -22,6 +22,7 @@ class WeaponAscensionPlanner < ApplicationService
     validate_inputs!
 
     @materials_by_weapon = WeaponMaterialMap.where(weapon_id: @weapon.id).to_a
+    @materials_by_weapon_type = WeaponTypeMaterial.where(weapon_type: @weapon.weapon_type).to_a
 
     calculate_leveling_costs
     calculate_ascension_costs
@@ -94,11 +95,16 @@ class WeaponAscensionPlanner < ApplicationService
 
   def add_materials(cost_records)
     cost_records.each do |cost|
-      if cost.material_type == "Credit"
+      case cost.material_type
+      when "Credit"
         @materials_totals[shell_credit_id] += cost.quantity
+      when "ForgeryDrop"
+        material_id = @materials_by_weapon_type.find { |map| map.rarity == cost.rarity }&.material_id
+        @materials_totals[material_id] += cost.quantity if material_id
       else
         material_id = @materials_by_weapon.find do |map|
-          map.material_type == cost.material_type && map.rarity == cost.rarity
+          map.material_type == cost.material_type &&
+          map.rarity == cost.rarity
         end&.material_id
 
         @materials_totals[material_id] += cost.quantity if material_id
@@ -108,7 +114,7 @@ class WeaponAscensionPlanner < ApplicationService
 
   def calculate_leveling_costs
     required_levels = (@current_level + 1)..@target_level
-    level_costs = WeaponLevelCost.where(level: required_levels)
+    level_costs = WeaponLevelCost.where(level: required_levels, weapon_rarity: @weapon.rarity)
     total_exp_required = 0
 
     level_costs.each do |level_cost|
@@ -130,7 +136,7 @@ class WeaponAscensionPlanner < ApplicationService
 
   def calculate_ascension_costs
     required_ascension_ranks = (@current_ascension_rank + 1)..@target_ascension_rank
-    ascension_costs = WeaponAscensionCost.where(ascension_rank: required_ascension_ranks)
+    ascension_costs = WeaponAscensionCost.where(ascension_rank: required_ascension_ranks, weapon_rarity: @weapon.rarity)
     add_materials(ascension_costs)
   end
 end
