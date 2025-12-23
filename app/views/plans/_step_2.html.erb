@@ -1,0 +1,14 @@
+<div class="p-8">
+  <h2 class="text-xl font-bold mb-4 text-center">Select your
+    <%= @plan_type %></h2>
+  <div class="max-h-72 overflow-y-auto border rounded divide-y">
+    <% @items.each do |item| %>
+      <%= link_to item.name,
+      new_plan_path(plan_type: @plan_type, item_id: item.id, step: 3),
+      class: "block p-4 hover:bg-gray-50 transition text-sm text-gray-700 font-medium" %>
+    <% end %>
+  </div>
+  <%= link_to "← Back",
+  new_plan_path(step: 1),
+  class: "mt-4 inline-block text-xs text-blue-500 underline" %>
+</div>

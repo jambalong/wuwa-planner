@@ -1,4 +1,5 @@
 <div id="plan-form-frame">
+  <%# Error Display %>
   <% if local_assigns[:errors].present? %>
     <div class="error-box">
       <strong>Fix errors:</strong>
@@ -10,41 +11,58 @@
     </div>
   <% end %>
 
-  <%= form_with url: plans_path, data: { controller: "plan-form" } do |f| %>
+  <%= form_with url: plans_path, method: :post, data: { controller: "plan-form" } do |f| %>
+    <%# Hidden fields to tell the Controller what we selected in Steps 1 & 2 %>
+    <%= f.hidden_field :plan_type, value: plan_type %>
+
+    <% if plan_type == "Resonator" %>
+      <%= f.hidden_field :resonator_id, value: item.id %>
+    <% else %>
+      <%= f.hidden_field :weapon_id, value: item.id %>
+    <% end %>
+
     <div>
-      <%= f.label :plan_type %>
-      <%= f.select :plan_type,
-               %w[Resonator Weapon],
-               {},
-               data: {
-                 action: "change->plan-form#toggleFields",
-                 plan_form_target: "typeSelect",
-               } %>
+      <div>
+        <h2>Level</h2>
+        <%= f.number_field :current_level,
+                       value: 1,
+                       min: 1,
+                       max: 90,
+                       data: {
+                         action: "input->plan-form#clampLevel",
+                       } %>
+        <span>-></span>
+        <%= f.number_field :target_level,
+                       value: 90,
+                       min: 1,
+                       max: 90,
+                       data: {
+                         action: "input->plan-form#clampLevel",
+                       } %>
+      </div>
+
+      <div>
+        <h2>Ascension Rank</h2>
+        <%= f.number_field :current_ascension_rank,
+                       value: 1,
+                       min: 1,
+                       max: 6,
+                       data: {
+                         action: "input->plan-form#clampAscensionRank",
+                       } %>
+        <span>-></span>
+        <%= f.number_field :target_ascension_rank,
+                       value: 6,
+                       min: 1,
+                       max: 6,
+                       data: {
+                         action: "input->plan-form#clampAscensionRank",
+                       } %>
+      </div>
     </div>
 
-    <%# Resonator Section %>
-    <div data-plan-form-target="resonatorFields">
-      <%= f.label :resonator_id %>
-      <%= f.collection_select :resonator_id,
-                          Resonator.order(:name),
-                          :id,
-                          :name,
-                          { prompt: "Choose a Resonator..." } %>
-      <%# Add levels/skills here %>
+    <div class="pt-4 font-bold">
+      <%= f.submit "New Plan" %>
     </div>
-
-    <%# Weapon Section %>
-    <div data-plan-form-target="weaponFields" class="hidden">
-      <%= f.label :weapon_id %>
-      <%= f.collection_select :weapon_id,
-                          Weapon.order(:name),
-                          :id,
-                          :name,
-                          { prompt: "Choose a Resonator" },
-                          { class: "w-full border p-2 rounded" } %>
-      <%# Add levels here %>
-    </div>
-
-    <%= f.submit "New Plan" %>
   <% end %>
 </div>

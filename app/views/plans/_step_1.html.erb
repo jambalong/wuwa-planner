@@ -1,0 +1,13 @@
+<div>
+  <h2>Choose Plan Type:</h2>
+  <div class="grid grid-cols-2 gap-4">
+    <%= link_to "Resonator",
+    new_plan_path(plan_type: "Resonator", step: 2),
+    class:
+      "p-6 border-2 border-blue-100 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition" %>
+    <%= link_to "Weapon",
+    new_plan_path(plan_type: "Weapon", step: 2),
+    class:
+      "p-6 border-2 border-blue-100 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition" %>
+  </div>
+</div>

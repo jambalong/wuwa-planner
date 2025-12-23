@@ -1,12 +1,17 @@
-<turbo-frame id="modal">
-  <div class="modal-backdrop">
-    <div class="modal-window">
-      <div class="modal-header">
-        <h3>Create New Plan</h3>
-        <% link_to "Close", plans_path, data: { turbo_frame: "modal" } %>
-      </div>
+<%= turbo_frame_tag "modal" do %>
+  <div data-controller="modal" data-action="keydown.esc->modal#close">
+    <div>
+      <%# Close Button %>
+      <button data-action="click->modal#close">✕</button>
 
-      <%= render "form" %>
+      <div id="modal-step-content">
+        <%# This part swaps based on the step %>
+        <%= render "step_#{@step}",
+        step: @step,
+        plan_type: @plan_type,
+        item: @item,
+        items: @items %>
+      </div>
     </div>
   </div>
-</turbo-frame>
+<% end %>

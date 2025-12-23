@@ -6,6 +6,16 @@ class PlansController < ApplicationController
   end
 
   def new
+    @step = (params[:step] || 1).to_i
+    @plan_type = params[:plan_type]
+
+    case @step
+    when 2
+      @items = (@plan_type == "Resonator" ? Resonator : Weapon).order(:name)
+    when 3
+      @item = (@plan_type == "Resonator" ? Resonator : Weapon).find(params[:item_id])
+    end
+    # Rails automatically renders new.html.erb, which uses the @variables above
   end
 
   def create
@@ -88,11 +98,19 @@ class PlansController < ApplicationController
   end
 
   def render_form_with_errors
+    plan_type = params[:plan_type]
+    item_id = plan_type == "Resonator" ? params[:resonator_id] : params[:weapon_id]
+    item = (plan_type == "Resonator" ? Resonator : Weapon).find(item_id)
+
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: turbo_stream.replace("plan-form-frame",
                partial: "plans/form",
-               locals: { errors: @errors })
+               locals: {
+                 errors: @errors,
+                 item: item,
+                 plan_type: plan_type
+               })
       }
     end
   end

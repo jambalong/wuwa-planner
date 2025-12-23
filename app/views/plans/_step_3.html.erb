@@ -1,0 +1,12 @@
+<div class="p-8">
+  <div class="mb-4">
+    <span class="text-xs font-bold text-blue-600 uppercase tracking-widest"><%= @plan_type %></span>
+    <h2 class="text-2xl font-bold text-gray-800"><%= @item.name %></h2>
+  </div>
+
+  <%= render "form", item: @item, plan_type: @plan_type %>
+
+  <%= link_to "← Back to List",
+  new_plan_path(plan_type: @plan_type, step: 2),
+  class: "mt-4 inline-block text-xs text-gray-400" %>
+</div>
