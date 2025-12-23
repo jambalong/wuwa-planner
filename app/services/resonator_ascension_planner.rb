@@ -183,7 +183,7 @@ class ResonatorAscensionPlanner < ApplicationService
   def convert_exp_to_potions(total_exp_required)
     potion = basic_potion
 
-    return if total_exp_require <= 0
+    return if total_exp_required <= 0
 
     quantity = (total_exp_required / potion.exp_value)
     @materials_totals[potion.id] += quantity
