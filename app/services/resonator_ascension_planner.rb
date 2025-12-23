@@ -1,7 +1,7 @@
 class ResonatorAscensionPlanner < ApplicationService
   class ValidationError < StandardError; end
 
-  ASCENSION_LEVEL_CAP = {
+  ASCENSION_LEVEL_CAPS = {
     0 => 20, 1 => 40, 2 => 50, 3 => 60, 4 => 70, 5 => 80, 6 => 90
   }
 
