@@ -34,6 +34,14 @@ class WeaponAscensionPlanner < ApplicationService
     raise
   end
 
+  def self.shell_credit_id
+    @shell_credit_id ||= Material.find_by(name: "Shell Credit").id
+  end
+
+  def self.basic_core
+    @basic_core ||= Material.find_by(name: "Basic Energy Core")
+  end
+
   private
 
   def validate_inputs!
@@ -76,20 +84,12 @@ class WeaponAscensionPlanner < ApplicationService
     raise ValidationError, errors.join("|") unless errors.empty?
   end
 
-  def self.shell_credit_id
-    @shell_credit_id ||= Material.find_by(name: "Shell Credit").id
-  end
-
-  def self.basic_core
-    @basic_core ||= Material.find_by(name: "Basic Energy Core")
-  end
-
   def shell_credit_id
-    @shell_credit_id
+    self.class.shell_credit_id
   end
 
   def basic_core
-    @basic_core
+    self.class.basic_core
   end
 
   def add_materials(cost_records)
@@ -122,7 +122,7 @@ class WeaponAscensionPlanner < ApplicationService
   def convert_exp_to_potions(total_exp_required)
     core = basic_core
 
-    return if total_exp_require <= 0
+    return if total_exp_required <= 0
 
     quantity = (total_exp_required / core.exp_value)
     @materials_totals[core.id] += quantity
