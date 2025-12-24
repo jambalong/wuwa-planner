@@ -63,7 +63,7 @@ class ResonatorAscensionPlanner < ApplicationService
   end
 
   def self.basic_potion
-    @basic_potion ||= Material.find_by!(name: "Basic Resonance Potion").id
+    @basic_potion ||= Material.find_by!(name: "Basic Resonance Potion")
   end
 
   private
