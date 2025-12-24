@@ -18,8 +18,6 @@ class PlansController < ApplicationController
       @item = (@plan_type == "Resonator" ? Resonator : Weapon).find(params[:item_id])
     end
     # Rails automatically renders new.html.erb, which uses the @variables above
-
-    render layout: false if turbo_frame_request?
   end
 
   def create
