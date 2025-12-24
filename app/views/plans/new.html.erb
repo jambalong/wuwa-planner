@@ -43,7 +43,12 @@
 
       <%# Modal step content %>
       <div id="modal-step-content">
-        <%= render "step_#{@step}", local_assigns %>
+        <%= render "step_#{@step}",
+        step: @step,
+        plan_type: @plan_type,
+        items: @items,
+        item: @item,
+        errors: @errors %>
       </div>
     </div>
   </div>

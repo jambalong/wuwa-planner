@@ -8,6 +8,8 @@ class PlansController < ApplicationController
   def new
     @step = (params[:step] || 1).to_i
     @plan_type = params[:plan_type]
+    @items = []
+    @item = nil
 
     case @step
     when 2
@@ -16,6 +18,8 @@ class PlansController < ApplicationController
       @item = (@plan_type == "Resonator" ? Resonator : Weapon).find(params[:item_id])
     end
     # Rails automatically renders new.html.erb, which uses the @variables above
+
+    render layout: false if turbo_frame_request?
   end
 
   def create
