@@ -12,5 +12,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
 
-  resources :plans, only: [ :index, :new, :create, :destroy ], path: :planner
+  resources :plans, only: [ :index, :new, :create, :destroy ], path: :planner do
+    member do
+      get :confirm_delete
+    end
+  end
 end
