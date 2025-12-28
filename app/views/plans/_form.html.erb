@@ -1,3 +1,5 @@
+<%# locals: (item:, plan_type:, errors: nil) %>
+
 <div id="plan-form-frame">
   <%= form_with url: plans_path, method: :post, data: { controller: "plan-form" } do |f| %>
     <%# Hidden fields to tell the Controller what we selected in Steps 1 & 2 %>
