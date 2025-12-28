@@ -24,7 +24,7 @@ class ResonatorAscensionPlanner < ApplicationService
     resonator:, current_level:, target_level:,
     current_ascension_rank:, target_ascension_rank:,
     current_skill_levels:, target_skill_levels:,
-    current_forte_nodes:, target_forte_nodes:
+    forte_node_upgrades:
   )
     @resonator = resonator
     @current_level = current_level.to_i
@@ -33,8 +33,7 @@ class ResonatorAscensionPlanner < ApplicationService
     @target_ascension_rank = target_ascension_rank.to_i
     @current_skill_levels = current_skill_levels.transform_values(&:to_i)
     @target_skill_levels = target_skill_levels.transform_values(&:to_i)
-    @current_forte_nodes = current_forte_nodes.transform_values(&:to_i)
-    @target_forte_nodes = target_forte_nodes.transform_values(&:to_i)
+    @forte_node_upgrades = forte_node_upgrades.transform_values(&:to_i)
 
     @materials_totals = Hash.new(0)
   end
@@ -75,7 +74,6 @@ class ResonatorAscensionPlanner < ApplicationService
     if @current_level == @target_level &&
        @current_ascension_rank == @target_ascension_rank &&
        @current_skill_levels == @target_skill_levels &&
-       @current_forte_nodes == @target_forte_nodes
       errors << "At least one target value must be different from the corresponding current value to generate a plan."
     end
 
@@ -126,14 +124,6 @@ class ResonatorAscensionPlanner < ApplicationService
 
       if target_level && target_level < current_level
         errors << "Target level for '#{skill_name.to_s.titleize}' is #{target_level}, which is less than Current Level (#{current_level}). Downgrades are not allowed."
-      end
-    end
-
-    @current_forte_nodes.each do |node_name, current_upgrade|
-      target_upgrade = @target_forte_nodes[node_name]
-
-      if target_upgrade && target_upgrade < current_upgrade
-        errors << "Target state for '#{node_name.to_s.titleize}' is Locked (0), which is less than Current state (1). Downgrades are not allowed."
       end
     end
 
@@ -208,11 +198,10 @@ class ResonatorAscensionPlanner < ApplicationService
   end
 
   def calculate_forte_node_costs
-    @current_forte_nodes.each do |node_identifier, current_state|
-      target_state = @target_forte_nodes[node_identifier]
-      next unless current_state == 0 && target_state == 1
+    @forte_node_upgrades.each do |node, state|
+      next unless state == 1
 
-      cost_identifier = FORTE_NODES_MAP[node_identifier]
+      cost_identifier = FORTE_NODES_MAP[node]
       next unless cost_identifier.present?
 
       forte_node_costs = ForteNodeCost.where(node_identifier: cost_identifier)

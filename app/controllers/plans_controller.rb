@@ -145,8 +145,7 @@ class PlansController < ApplicationController
     {
       current_skill_levels: map_skills(p, :current),
       target_skill_levels: map_skills(p, :target),
-      current_forte_nodes: map_nodes(p),
-      target_forte_nodes: map_nodes(p)
+      forte_node_upgrades: map_nodes(p)
     }
   end
 

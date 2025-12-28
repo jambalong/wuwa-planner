@@ -92,9 +92,9 @@
 
             <%# Skill Level Indicators (1 -> 1) %>
             <div class="skill-level-text">
-              <span id="#{config[:key]}_current">1</span>
+              <span id="plan_<%= config[:key] %>_current">1</span>
               <span class="mx-1 text-gray-600">→</span>
-              <span id="#{config[:key]}_target">1</span>
+              <span id="plan_<%= config[:key] %>_target">10</span>
             </div>
 
             <%# Sliders %>
@@ -107,7 +107,7 @@
                 oninput: "
                   let percent = (this.value - this.min) / (this.max - this.min) * 100;
                   this.style.setProperty('--value', percent + '%');
-                  document.getElementById('#{config[:key]}_current').innerText = this.value;
+                  document.getElementById('plan_#{config[:key]}_current').innerText = this.value;
                 " %>
 
             <%= f.range_field "#{config[:key]}_target", 
@@ -119,7 +119,7 @@
                 oninput: "
                   let percent = (this.value - this.min) / (this.max - this.min) * 100;
                   this.style.setProperty('--value', percent + '%');
-                  document.getElementById('#{config[:key]}_target').innerText = this.value;
+                  document.getElementById('plan_#{config[:key]}_target').innerText = this.value;
                 " %>
           </div>
         <% end %>
