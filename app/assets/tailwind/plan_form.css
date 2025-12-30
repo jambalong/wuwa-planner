@@ -122,12 +122,14 @@ h2.uppercase {
 }
 
 .skill-level-text {
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   font-weight: 800;
   color: var(--ctp-text);
   text-transform: uppercase;
-  letter-spacing: -0.025em;
+  letter-spacing: 0.25em;
   margin-top: 0.5rem;
+  width: 100%;
+  text-align: center;
 }
 
 /* Range Sliders Styling */
