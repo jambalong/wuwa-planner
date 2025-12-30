@@ -8,45 +8,69 @@
 
     <div class="grid grid-cols-2 gap-4 mb-8">
       <%# Level Section %>
-      <div class="bg-[#1a1b1e] p-4 rounded-2xl border border-gray-800 shadow-inner">
-        <h2 class="text-[10px] uppercase tracking-widest text-gray-500 font-black mb-3">Character Level</h2>
+      <div class="p-4">
+        <h2
+          class="
+            text-[10px] uppercase tracking-widest text-ctp-text font-black mb-3
+          "
+        >Level</h2>
         <div class="flex items-center justify-between gap-2">
           <div class="level-input-wrapper">
             <%= f.number_field :current_level,
-                value: 1, min: 1, max: 90,
-                class: "custom-number-input current",
-                data: { action: "input->plan-form#clampLevel" } %>
+                           value: 1,
+                           min: 1,
+                           max: 90,
+                           class: "custom-number-input current",
+                           data: {
+                             action: "input->plan-form#clampLevel",
+                           } %>
           </div>
-          
-          <span class="text-white">→</span>
+
+          <span class="text-ctp-text">→</span>
 
           <div class="level-input-wrapper">
             <%= f.number_field :target_level,
-                value: 90, min: 1, max: 90,
-                class: "custom-number-input target",
-                data: { action: "input->plan-form#clampLevel" } %>
+                           value: 90,
+                           min: 1,
+                           max: 90,
+                           class: "custom-number-input target",
+                           data: {
+                             action: "input->plan-form#clampLevel",
+                           } %>
           </div>
         </div>
       </div>
 
       <%# Ascension Section %>
-      <div class="bg-[#1a1b1e] p-4 rounded-2xl border border-gray-800 shadow-inner">
-        <h2 class="text-[10px] uppercase tracking-widest text-gray-500 font-black mb-3">Ascension Rank</h2>
+      <div class="p-4">
+        <h2
+          class="
+            text-[10px] uppercase tracking-widest text-ctp-text font-black mb-3
+          "
+        >Ascension Rank</h2>
         <div class="flex items-center justify-between gap-2">
           <div class="level-input-wrapper">
             <%= f.number_field :current_ascension_rank,
-                value: 0, min: 0, max: 6,
-                class: "custom-number-input current",
-                data: { action: "input->plan-form#clampAscensionRank" } %>
+                           value: 0,
+                           min: 0,
+                           max: 6,
+                           class: "custom-number-input current",
+                           data: {
+                             action: "input->plan-form#clampAscensionRank",
+                           } %>
           </div>
 
           <span class="text-white">→</span>
 
           <div class="level-input-wrapper">
             <%= f.number_field :target_ascension_rank,
-                value: 6, min: 0, max: 6,
-                class: "custom-number-input target",
-                data: { action: "input->plan-form#clampAscensionRank" } %>
+                           value: 6,
+                           min: 0,
+                           max: 6,
+                           class: "custom-number-input target",
+                           data: {
+                             action: "input->plan-form#clampAscensionRank",
+                           } %>
           </div>
         </div>
       </div>
@@ -55,7 +79,7 @@
     <% if plan_type == "Resonator" %>
       <%# The Forte Grid %>
       <div class="flex justify-between items-end gap-2">
-        
+
         <% [
           { label: "Basic Attack", key: "basic_attack" },
           { label: "Resonance Skill", key: "resonance_skill" },
@@ -64,7 +88,7 @@
           { label: "Intro Skill", key: "intro_skill" }
         ].each do |config| %>
           <div class="forte-column <%= 'inherent-node' if config[:inherent] %>">
-      
+
             <%# Tier 2 Node %>
             <label class="node-label cursor-pointer">
               <%= f.check_box "#{config[:key]}_node_2", class: "peer hidden" %>
@@ -93,34 +117,36 @@
             <%# Skill Level Indicators (1 -> 1) %>
             <div class="skill-level-text">
               <span id="plan_<%= config[:key] %>_current">1</span>
-              <span class="mx-1 text-gray-600">→</span>
+              <span class="mx-1 text-ctp-text">→</span>
               <span id="plan_<%= config[:key] %>_target">10</span>
             </div>
 
             <%# Sliders %>
-            <%= f.range_field "#{config[:key]}_current", 
-                min: 1, 
-                max: 10, 
-                value: 1, 
-                class: "skill-slider",
-                style: "--value: 0%;", 
-                oninput: "
-                  let percent = (this.value - this.min) / (this.max - this.min) * 100;
-                  this.style.setProperty('--value', percent + '%');
-                  document.getElementById('plan_#{config[:key]}_current').innerText = this.value;
-                " %>
+            <%= f.range_field "#{config[:key]}_current",
+                          min: 1,
+                          max: 10,
+                          value: 1,
+                          class: "skill-slider",
+                          style: "--value: 0%;",
+                          oninput:
+                            "
+                                                                                                                            let percent = (this.value - this.min) / (this.max - this.min) * 100;
+                                                                                                                            this.style.setProperty('--value', percent + '%');
+                                                                                                                            document.getElementById('plan_#{config[:key]}_current').innerText = this.value;
+                                                                                                                            " %>
 
-            <%= f.range_field "#{config[:key]}_target", 
-                min: 1, 
-                max: 10, 
-                value: 10, 
-                class: "skill-slider",
-                style: "--value: 100%;", 
-                oninput: "
-                  let percent = (this.value - this.min) / (this.max - this.min) * 100;
-                  this.style.setProperty('--value', percent + '%');
-                  document.getElementById('plan_#{config[:key]}_target').innerText = this.value;
-                " %>
+            <%= f.range_field "#{config[:key]}_target",
+                          min: 1,
+                          max: 10,
+                          value: 10,
+                          class: "skill-slider",
+                          style: "--value: 100%;",
+                          oninput:
+                            "
+                                                                                                                let percent = (this.value - this.min) / (this.max - this.min) * 100;
+                                                                                                                this.style.setProperty('--value', percent + '%');
+                                                                                                                document.getElementById('plan_#{config[:key]}_target').innerText = this.value;
+                                                                                                              " %>
           </div>
         <% end %>
 
@@ -130,7 +156,7 @@
     <div class="pt-6">
       <%= f.submit "Create Plan",
                class:
-                 "w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-200 transition-all cursor-pointer border-none" %>
+                 "w-full py-3 px-4 bg-ctp-surface0 hover:bg-ctp-mauve text-ctp-text hover:text-ctp-base font-bold rounded-xl shadow-lg shadow-ctp-crust-200 transition-all cursor-pointer border-none" %>
     </div>
   <% end %>
 </div>
