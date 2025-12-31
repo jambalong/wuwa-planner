@@ -11,3 +11,6 @@
   font-display: swap;
 }
 
+code {
+  color: var(--ctp-blue);
+}
