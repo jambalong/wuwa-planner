@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_31_200138) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_31_202251) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -41,7 +41,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_200138) do
     t.string "plan_type", null: false
     t.string "planner_id", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.index ["planner_id"], name: "index_plans_on_planner_id"
     t.index ["user_id"], name: "index_plans_on_user_id"
   end
