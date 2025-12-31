@@ -1,10 +1,10 @@
-<%# locals: (item:, plan_type:, errors: nil) %>
+<%# locals: (subject:, plan_type:, errors: nil) %>
 
 <div id="plan-form-frame">
   <%= form_with(model: Plan.new, url: plans_path, method: :post, data: { controller: "plan-form" }, id: "plan-form") do |f| %>
     <%# Hidden fields to tell the Controller what we selected in Steps 1 & 2 %>
     <%= f.hidden_field :plan_type, value: plan_type %>
-    <%= f.hidden_field :item_id, value: item.id %>
+    <%= f.hidden_field :subject_id, value: subject.id %>
 
     <div class="grid grid-cols-2 gap-4 mb-8">
       <%# Level Section %>

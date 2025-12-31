@@ -1,22 +1,28 @@
 class PlansController < ApplicationController
   before_action :set_planner_id
+  before_action :set_plan, only: [ :edit, :update, :destroy, :confirm_delete ]
+  before_action :authorize_owner!, only: [ :edit, :update, :destroy, :confirm_delete ]
 
   def index
-    @plans = Plan.where(planner_id: @planner_id)
+    if user_signed_in?
+      @plans = current_user.plans
+    else
+      @plans = Plan.where(planner_id: @planner_id, user_id: nil)
+    end
   end
 
   def new
     @step = (params[:step] || 1).to_i
     @plan_type = params[:plan_type] || params.dig(:plan, :plan_type)
-    @items = []
-    @item = nil
+    @subjects = []
+    @subject = nil
 
     case @step
     when 2
-      @items = (@plan_type == "Resonator" ? Resonator : Weapon).order(:name)
+      @subjects = (@plan_type == "Resonator" ? Resonator : Weapon).order(:name)
     when 3
-      item_id = params[:item_id] || params.dig(:plan, :item_id)
-      @item = (@plan_type == "Resonator" ? Resonator : Weapon).find(item_id)
+      subject_id = params[:subject_id] || params.dig(:plan, :subject_id)
+      @subject = (@plan_type == "Resonator" ? Resonator : Weapon).find(subject_id)
     end
     # Rails automatically renders new.html.erb, which uses the @variables above
   end
@@ -24,20 +30,20 @@ class PlansController < ApplicationController
   def create
     p = plan_params
     plan_type = p[:plan_type]
-    item = (plan_type == "Resonator" ? Resonator : Weapon).find_by!(id: p[:item_id])
+    subject = (plan_type == "Resonator" ? Resonator : Weapon).find_by!(id: p[:subject_id])
 
     begin
       resonator_data = plan_type == "Resonator" ? build_resonator_data(p) : {}
 
       planner = if plan_type == "Resonator"
         ResonatorAscensionPlanner.new(
-          resonator: item,
+          resonator: subject,
           **base_params(p),
           **resonator_data
         )
       else
         WeaponAscensionPlanner.new(
-          weapon: item,
+          weapon: subject,
           **base_params(p)
         )
       end
@@ -50,7 +56,7 @@ class PlansController < ApplicationController
         planner_id: @planner_id,
         plan_type: plan_type,
         plan_data: {
-          input: { name: item.name, **base_params(p) }.merge(resonator_data),
+          input: { subject_name: subject.name, subject_id: subject.id, **base_params(p) }.merge(resonator_data),
           output: final_output
         }
       )
@@ -96,8 +102,8 @@ class PlansController < ApplicationController
 
   def render_form_with_errors
     plan_type = params[:plan_type]
-    item_id = params[:item_id]
-    item = (plan_type == "Resonator" ? Resonator : Weapon).find(item_id)
+    subject_id = params[:subject_id]
+    subject = (plan_type == "Resonator" ? Resonator : Weapon).find(subject_id)
 
     respond_to do |format|
       format.turbo_stream {
@@ -105,7 +111,7 @@ class PlansController < ApplicationController
                partial: "plans/form",
                locals: {
                  errors: @errors,
-                 item: item,
+                 subject: subject,
                  plan_type: plan_type
                })
       }
@@ -113,7 +119,7 @@ class PlansController < ApplicationController
   end
 
   def plan_params
-    core = [ :plan_type, :item_id, :current_level, :target_level, :current_ascension_rank, :target_ascension_rank ]
+    core = [ :plan_type, :subject_id, :current_level, :target_level, :current_ascension_rank, :target_ascension_rank ]
 
     # Skill fields
     skills = [

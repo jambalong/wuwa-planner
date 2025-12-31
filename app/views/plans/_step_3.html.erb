@@ -1,12 +1,12 @@
-<%# locals: (step:, item:, plan_type:, items: nil, errors: nil) %>
+<%# locals: (step:, subject:, plan_type:, subjects: nil, errors: nil) %>
 
 <div class="p-8">
   <header class="mb-6 flex justify-between items-start">
     <div>
       <h2 class="text-2xl font-black text-ctp-text tracking-tight">
-        <%= item.name %>
+        <%= subject.name %>
         <span class="text-ctp-yellow star-5">
-          <%= item.rarity == 5 ? "*****" : "****" %>
+          <%= subject.rarity == 5 ? "*****" : "****" %>
         </span>
       </h2>
       <p class="text-sm text-ctp-subtext0 tracking-wide uppercase font-semibold">Configure
@@ -16,7 +16,7 @@
   </header>
 
   <%# Pass the locals into the main form %>
-  <%= render "form", item: item, plan_type: plan_type, errors: errors %>
+  <%= render "form", subject: subject, plan_type: plan_type, errors: errors %>
 
   <footer class="mt-8 pt-4 border-t border-ctp-surface0">
     <%= link_to new_plan_path(plan_type: plan_type, step: 2), 
