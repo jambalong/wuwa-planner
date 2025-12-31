@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_31_005333) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_31_200138) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -41,7 +41,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_005333) do
     t.string "plan_type", null: false
     t.string "planner_id", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["planner_id"], name: "index_plans_on_planner_id"
+    t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
   create_table "resonator_ascension_costs", force: :cascade do |t|
@@ -301,6 +303,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_005333) do
     t.string "weapon_type", null: false
   end
 
+  add_foreign_key "plans", "users"
   add_foreign_key "resonator_material_maps", "materials"
   add_foreign_key "resonator_material_maps", "resonators"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
