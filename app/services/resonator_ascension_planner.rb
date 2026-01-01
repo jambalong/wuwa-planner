@@ -118,7 +118,7 @@ class ResonatorAscensionPlanner < ApplicationService
       min_level_required = ASCENSION_LEVEL_CAPS[@current_ascension_rank - 1]
 
       if @current_level < min_level_required
-        errors << "Current Ascension Rank #{@current_ascension_rank} requires a minimum level of #{min_level_required}."
+        errors << "Current ascension rank #{@current_ascension_rank} requires a minimum level of #{min_level_required}."
       end
     end
 
@@ -131,7 +131,7 @@ class ResonatorAscensionPlanner < ApplicationService
       min_level_required = ASCENSION_LEVEL_CAPS[@target_ascension_rank - 1]
 
       if @target_level < min_level_required
-        errors << "Target Ascension Rank #{@target_ascension_rank} requires a minimum level of #{min_level_required}."
+        errors << "Target ascension rank #{@target_ascension_rank} requires a minimum level of #{min_level_required}."
       end
     end
 
@@ -140,7 +140,7 @@ class ResonatorAscensionPlanner < ApplicationService
       target_level = @target_skill_levels[skill_name]
 
       if target_level && target_level < current_level
-        errors << "Target level for '#{skill_name.to_s.titleize}' is #{target_level}, which is less than Current Level (#{current_level}). Downgrades are not allowed."
+        errors << "Target level for '#{skill_name.to_s.titleize}' is #{target_level}, which is less than current level (#{current_level})."
       end
     end
 
