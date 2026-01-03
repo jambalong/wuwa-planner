@@ -39,6 +39,8 @@ registry:
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
+  clear:
+    LETSENCRYPT_EMAIL: wuwaplanner@ambalong.dev
   secret:
     - RAILS_MASTER_KEY
     - DATABASE_URL
