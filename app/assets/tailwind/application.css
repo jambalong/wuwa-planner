@@ -48,7 +48,6 @@
 }
 
 body {
-  font-family: '0xPropo', sans-serif;
   background-color: var(--ctp-crust);
   color: var(--ctp-text);
   margin: 0;
