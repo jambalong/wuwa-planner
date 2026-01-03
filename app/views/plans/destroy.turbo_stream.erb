@@ -1,9 +1,9 @@
 <%# Use dom_id to target the exact element to remove %>
 <%= turbo_stream.remove dom_id(@plan) %>
 
-<%= turbo_stream.update "signup-banner-container" do %>
+<%= turbo_stream.update "sync-banner-container" do %>
   <% updated_plans = Plan.where(guest_token: @guest_token, user_id: nil) %>
-  <%= render "plans/signup_banner", plans: updated_plans %>
+  <%= render "plans/sync_banner", plans: updated_plans %>
 <% end %>
 
 <%# Close the confirm delete modal %>
