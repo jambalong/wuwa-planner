@@ -9,7 +9,7 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
-@import './signup.css';
+@import './authentication.css';
 
 .hidden {
   display: none !important;
