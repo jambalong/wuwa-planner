@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_22_214013) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_31_214030) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -37,11 +37,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_22_214013) do
 
   create_table "plans", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.string "guest_token", null: false
     t.jsonb "plan_data", default: {}, null: false
     t.string "plan_type", null: false
-    t.string "planner_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["planner_id"], name: "index_plans_on_planner_id"
+    t.bigint "user_id"
+    t.index ["guest_token"], name: "index_plans_on_guest_token"
+    t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
   create_table "resonator_ascension_costs", force: :cascade do |t|
@@ -241,6 +243,18 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_22_214013) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
+  create_table "users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at"
+    t.string "reset_password_token"
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
   create_table "weapon_ascension_costs", force: :cascade do |t|
     t.integer "ascension_rank", null: false
     t.datetime "created_at", null: false
@@ -289,6 +303,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_22_214013) do
     t.string "weapon_type", null: false
   end
 
+  add_foreign_key "plans", "users"
   add_foreign_key "resonator_material_maps", "materials"
   add_foreign_key "resonator_material_maps", "resonators"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

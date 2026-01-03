@@ -1,4 +1,4 @@
-<%# locals: (step:, plan_type:, items:, item: nil, errors: nil) %>
+<%# locals: (step:, plan_type:, subjects:, subject: nil, errors: nil) %>
 
 <div class="p-8 flex flex-col h-[550px]" data-controller="search-filter">
   <header class="mb-6">
@@ -48,12 +48,12 @@
       grow overflow-y-auto rounded-xl shadow-inner bg-ctp-base custom-scrollbar
     "
   >
-    <% items.each do |item_record| %>
+    <% subjects.each do |subject_record| %>
       <div
-        data-search-filter-target="item"
-        data-search-name="<%= item_record.name %>"
+        data-search-filter-target="subject"
+        data-search-name="<%= subject_record.name %>"
       >
-        <%= link_to new_plan_path(plan_type: plan_type, item_id: item_record.id, step: 3), 
+        <%= link_to new_plan_path(plan_type: plan_type, subject_id: subject_record.id, step: 3), 
             data: { turbo_frame: "modal" }, 
             class: "flex items-center justify-between p-2 bg-ctp-base hover:bg-ctp-surface0 transition-all group" do %>
 
@@ -66,8 +66,8 @@
             >
               <%= plan_type == "Resonator" ? "👤" : "⚔️" %>
             </div>
-            <span class="font-bold <%= item_record.rarity == 5 ? 'star-5' : 'star-4' %>">
-              <%= item_record.name %>
+            <span class="font-bold <%= subject_record.rarity == 5 ? 'star-5' : 'star-4' %>">
+              <%= subject_record.name %>
             </span>
           </div>
 

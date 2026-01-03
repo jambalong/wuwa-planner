@@ -1,5 +1,14 @@
+<%# Add new plan to plan list %>
 <%= turbo_stream.append "plans_list" do %>
   <%= render partial: "plans/plan", locals: { plan: @plan } %>
 <% end %>
 
-<%= turbo_stream.update "modal", "" %>
+<%= turbo_stream.update "signup-banner-container" do %>
+  <% updated_plans = Plan.where(guest_token: @guest_token, user_id: nil) %>
+  <%= render "plans/signup_banner", plans: updated_plans %>
+<% end %>
+
+<%# Close the new plan modal %>
+<%= turbo_stream.replace "modal" do %>
+  <turbo-frame id="modal"></turbo-frame>
+<% end %>

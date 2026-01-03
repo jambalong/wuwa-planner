@@ -1,22 +1,28 @@
 class PlansController < ApplicationController
-  before_action :set_planner_id
+  before_action :set_guest_token
+  before_action :set_plan, only: [ :destroy, :confirm_delete ]
+  before_action :authorize_owner!, only: [ :destroy, :confirm_delete ]
 
   def index
-    @plans = Plan.where(planner_id: @planner_id)
+    if user_signed_in?
+      @plans = current_user.plans
+    else
+      @plans = Plan.where(guest_token: @guest_token, user_id: nil)
+    end
   end
 
   def new
     @step = (params[:step] || 1).to_i
     @plan_type = params[:plan_type] || params.dig(:plan, :plan_type)
-    @items = []
-    @item = nil
+    @subjects = []
+    @subject = nil
 
     case @step
     when 2
-      @items = (@plan_type == "Resonator" ? Resonator : Weapon).order(:name)
+      @subjects = (@plan_type == "Resonator" ? Resonator : Weapon).order(:name)
     when 3
-      item_id = params[:item_id] || params.dig(:plan, :item_id)
-      @item = (@plan_type == "Resonator" ? Resonator : Weapon).find(item_id)
+      subject_id = params[:subject_id] || params.dig(:plan, :subject_id)
+      @subject = (@plan_type == "Resonator" ? Resonator : Weapon).find(subject_id)
     end
     # Rails automatically renders new.html.erb, which uses the @variables above
   end
@@ -24,20 +30,34 @@ class PlansController < ApplicationController
   def create
     p = plan_params
     plan_type = p[:plan_type]
-    item = (plan_type == "Resonator" ? Resonator : Weapon).find_by!(id: p[:item_id])
+    subject = (plan_type == "Resonator" ? Resonator : Weapon).find_by!(id: p[:subject_id])
+
+    @errors = []
+
+    existing = if user_signed_in?
+      current_user.plans.find_by("plan_data->'input'->>'subject_id' = ?", subject.id.to_s)
+    else
+      Plan.where(user_id: nil, guest_token: @guest_token)
+          .find_by("plan_data->'input'->>'subject_id' = ?", subject.id.to_s)
+    end
+
+    if existing
+      @errors = [ "You already have a plan for #{subject.name}." ]
+      return render_form_with_errors
+    end
 
     begin
       resonator_data = plan_type == "Resonator" ? build_resonator_data(p) : {}
 
       planner = if plan_type == "Resonator"
         ResonatorAscensionPlanner.new(
-          resonator: item,
+          resonator: subject,
           **base_params(p),
           **resonator_data
         )
       else
         WeaponAscensionPlanner.new(
-          weapon: item,
+          weapon: subject,
           **base_params(p)
         )
       end
@@ -47,10 +67,11 @@ class PlansController < ApplicationController
       final_output = output_data.transform_keys { |id| material_names[id.to_i] || "N/A" }
 
       @plan = Plan.new(
-        planner_id: @planner_id,
         plan_type: plan_type,
+        guest_token: @guest_token,
+        user: current_user,
         plan_data: {
-          input: { name: item.name, **base_params(p) }.merge(resonator_data),
+          input: { subject_name: subject.name, subject_id: subject.id, **base_params(p) }.merge(resonator_data),
           output: final_output
         }
       )
@@ -60,6 +81,9 @@ class PlansController < ApplicationController
           format.turbo_stream
           format.html { redirect_to plans_path }
         end
+      else
+        @errors = @plan.errors.full_messages
+        render_form_with_errors
       end
 
     rescue ResonatorAscensionPlanner::ValidationError, WeaponAscensionPlanner::ValidationError => e
@@ -69,17 +93,15 @@ class PlansController < ApplicationController
       @errors = [ "The selected #{plan_type} could not be found." ]
       render_form_with_errors
     rescue StandardError => e
-      @errors = [ "An unexpected error occurred. Please try again." ]
+      @errors = [ "An error occurred: #{e.message}" ]
       render_form_with_errors
     end
   end
 
   def confirm_delete
-    @plan = Plan.find(params[:id])
   end
 
   def destroy
-    @plan = Plan.find(params[:id])
     @plan.destroy
 
     respond_to do |format|
@@ -89,23 +111,40 @@ class PlansController < ApplicationController
   end
 
   private
-  def set_planner_id
-    cookies.permanent[:planner_id] ||= SecureRandom.uuid
-    @planner_id = cookies.permanent[:planner_id]
+
+  def set_guest_token
+    if cookies.permanent[:guest_token].blank?
+      cookies.permanent[:guest_token] = SecureRandom.uuid
+    end
+
+    @guest_token = cookies.permanent[:guest_token]
+  end
+
+  def set_plan
+    @plan = Plan.find(params[:id])
+  end
+
+  def authorize_owner!
+    is_user_owner = user_signed_in? && @plan.user_id == current_user.id
+    is_guest_owner  = @plan.user_id.nil? && @plan.guest_token == @guest_token
+
+    unless is_user_owner || is_guest_owner
+      redirect_to plans_path, alert: "You don't have permission to modify this plan."
+    end
   end
 
   def render_form_with_errors
-    plan_type = params[:plan_type]
-    item_id = params[:item_id]
-    item = (plan_type == "Resonator" ? Resonator : Weapon).find(item_id)
+    plan_type = params[:plan_type] || params.dig(:plan, :plan_type)
+    subject_id = params[:subject_id] || params.dig(:plan, :subject_id)
+    subject = (plan_type == "Resonator" ? Resonator : Weapon).find(subject_id)
 
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: turbo_stream.replace("plan-form-frame",
                partial: "plans/form",
                locals: {
-                 errors: @errors,
-                 item: item,
+                 errors: @errors&.uniq,
+                 subject: subject,
                  plan_type: plan_type
                })
       }
@@ -113,7 +152,7 @@ class PlansController < ApplicationController
   end
 
   def plan_params
-    core = [ :plan_type, :item_id, :current_level, :target_level, :current_ascension_rank, :target_ascension_rank ]
+    core = [ :plan_type, :subject_id, :current_level, :target_level, :current_ascension_rank, :target_ascension_rank ]
 
     # Skill fields
     skills = [
@@ -124,7 +163,7 @@ class PlansController < ApplicationController
       :intro_skill_current, :intro_skill_target
     ]
 
-    # Node fields (Booleans)
+    # Node fields (0 or 1)
     nodes = [
       :basic_attack_node_1, :basic_attack_node_2,
       :resonance_skill_node_1, :resonance_skill_node_2,

@@ -1,10 +1,24 @@
-<%# locals: (item:, plan_type:, errors: nil) %>
+<%# locals: (subject:, plan_type:, errors: nil) %>
 
 <div id="plan-form-frame">
+  <% if errors.present? %>
+    <div
+      class="
+        mb-2 p-2 bg-ctp-red/20 border border-ctp-red text-ctp-red rounded-lg
+      "
+    >
+      <ul class="list-disc ml-5">
+        <% errors.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <%= form_with(model: Plan.new, url: plans_path, method: :post, data: { controller: "plan-form" }, id: "plan-form") do |f| %>
     <%# Hidden fields to tell the Controller what we selected in Steps 1 & 2 %>
     <%= f.hidden_field :plan_type, value: plan_type %>
-    <%= f.hidden_field :item_id, value: item.id %>
+    <%= f.hidden_field :subject_id, value: subject.id %>
 
     <div class="grid grid-cols-2 gap-4 mb-8">
       <%# Level Section %>
@@ -91,7 +105,10 @@
 
             <%# Tier 2 Node %>
             <label class="node-label cursor-pointer">
-              <%= f.check_box "#{config[:key]}_node_2", class: "peer hidden" %>
+              <%= f.check_box "#{config[:key]}_node_2",
+                          { class: "peer hidden", checked: true },
+                          1,
+                          0 %>
               <div class="node-circle node-2">
                 <span>✱</span>
               </div>
@@ -101,7 +118,10 @@
 
             <%# Tier 1 Node %>
             <label class="node-label cursor-pointer">
-              <%= f.check_box "#{config[:key]}_node_1", class: "peer hidden" %>
+              <%= f.check_box "#{config[:key]}_node_1",
+                          { class: "peer hidden", checked: true },
+                          1,
+                          0 %>
               <div class="node-circle node-1">
                 <span>✱</span>
               </div>
