@@ -64,7 +64,7 @@ class PlansController < ApplicationController
 
       output_data = planner.call
       material_names = Material.where(id: output_data.keys).pluck(:id, :name).to_h
-      final_output = output_data.transform_keys { |id| material_names[id.to_i] || "N/A" }
+      final_output = output_data.sort.to_h.transform_keys { |id| material_names[id.to_i] || "N/A" }
 
       @plan = Plan.new(
         plan_type: plan_type,
