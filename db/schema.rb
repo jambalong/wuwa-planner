@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_31_214030) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_05_221552) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -37,7 +37,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_214030) do
 
   create_table "plans", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string "guest_token", null: false
+    t.string "guest_token"
     t.jsonb "plan_data", default: {}, null: false
     t.string "plan_type", null: false
     t.datetime "updated_at", null: false
