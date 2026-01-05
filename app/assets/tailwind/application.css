@@ -40,14 +40,15 @@
 }
 
 @font-face {
-  font-family: '0xPropo';
-  src: asset-url('../fonts/0xPropo.woff2') format('woff2');
+  font-family: "0xPropo";
+  src: url("0xPropo.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 body {
+  font-family: "0xPropo", serif;
   background-color: var(--ctp-crust);
   color: var(--ctp-text);
   margin: 0;
