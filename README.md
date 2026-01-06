@@ -1,31 +1,37 @@
-# 🌊 Wuthering Waves Planner (WuWa Planner)
+# A Wuthering Waves Companion (Pangu Terminal)
 
 ### Project Overview
 
-The **WuWa Planner** is a full-stack web application designed to help players of the game Wuthering Waves efficiently plan their resource usage. This project serves as a comprehensive demonstration of **Ruby on Rails backend development**, complex database querying, and modern infrastructure tooling.
+**Pangu Terminal** is a high-performance logistics and statistical engine designed to optimize resource management in *Wuthering Waves*. The project is designed as a suite of modular services aimed at solving complex player progression challenges and gacha probability.
 
-### 🎯 Key Project Goals & Features (MVP)
+#### Phase 1: Ascension Planner (MVP)
+* **Goal:** Calculate total materials needed to reach character level goals.
+* **Technical:** Implements **Recursive Active Record** associations to model multi-tier crafting costs (Basic → Advanced → Premium).
 
-* **Phase 1: Ascension Planner (MVP):** A public, anonymous calculator that determines the total quantity of materials required to ascend a selected character from a current level to a goal level.
-* **Phase 2: Gacha Simulator:** A fully interactive frontend simulator that accurately models the in-game "gacha" pulling mechanics, including soft pity, hard pity, and the 50/50 guarantee system.
-* **Skill Demonstration:** Focus on complex database queries (Active Record) and seamless deployment practices.
+#### Phase 2: Inventory Hub & Wiki (The Data Nexus)
+* **Goal:** Create a "Single Source of Truth" for user data and game knowledge.
+* **Technical:** Implementing **Devise** for authentication and **Turbo Frames** for fast, inline inventory edits.
+
+#### Phase 3: Astrite Analytics (Gacha Simulator)
+* **Goal:** Advanced predictive modeling for gacha and resource spending.
+* **Technical:** Using **Ruby Service Objects** for pity logic (Soft/Hard Pity) and **Solid Queue** for background processing.
 
 ---
 
-### 💻 Technology Stack
+### Technology Stack
 
 | Component | Technology | Rationale |
 | :--- | :--- | :--- |
 | **Backend Core** | **Ruby on Rails 8.x** | Industry standard for rapid, scalable web development. |
 | **Database** | **PostgreSQL 17** | Robust, production-ready, and ideal for complex data relationships. |
-| **Frontend** | **Stimulus.js** | The Rails-native approach for "sprinkling" dynamic JavaScript logic (e.g., the Gacha Simulator state management). |
-| **Deployment** | **Kamal** | Demonstrates modern, full-stack deployment via Docker on a DigitalOcean VPS. |
+| **Frontend** | **Hotwire** | Optimized Rails-native stack (Turbo & Stimulus) for fast navigation and reactive frontend components. |
+| **Deployment** | **Kamal 2** | Demonstrates modern, full-stack deployment via Docker on a DigitalOcean VPS. |
 
 ---
 
-### 🚀 Local Development Setup
+### Local Development Setup
 
-To run this application locally using Docker:
+To run this application locally:
 
 #### Prerequisites
 
@@ -37,8 +43,8 @@ To run this application locally using Docker:
 1. **Clone the repository:**
 
     ```bash
-    git clone [repository_url]
-    cd wuwa-planner
+    git clone https://github.com/jambalong/pangu-terminal.git
+    cd pangu-terminal
     ```
 
 2. **Install Gems:**
@@ -72,11 +78,9 @@ The application will be available at `http://localhost:3000`.
 
 ---
 
-### 🌐 Live Deployment Status
+### Live Deployment Status
 
-The production version of this application is currently deployed via **Kamal** to a **DigitalOcean** droplet.
+The production version of this application is currently deployed via **Kamal 2** to a **DigitalOcean** droplet.
 
-* **Public IP Address:** `http://165.22.150.134`
-* **Deployment Tooling:** The infrastructure is fully managed by **Kamal**, demonstrating automated Docker image building, secure environment variable injection (`.kamal/secrets`), and container orchestration.
-
-*(Future step: Replace the IP address with a final public subdomain.)*
+* **Public IP Address:** `http://panguterminal.ambalong.dev`
+* **Deployment Tooling:** The infrastructure is fully managed by **Kamal 2**, demonstrating automated Docker image building, secure environment variable injection (`.kamal/secrets`), and container orchestration.
