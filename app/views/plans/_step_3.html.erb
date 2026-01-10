@@ -1,40 +1,28 @@
 <%# locals: (step:, subject:, plan_type:, subjects: nil, errors: nil) %>
 
-<div class="p-8">
-  <header class="mb-6 flex justify-between items-start">
+<div class="config-container">
+  <header class="config-header">
     <div>
-      <h2 class="text-2xl font-black text-ctp-text tracking-tight">
+      <h2 class="modal-title">
         <%= subject.name %>
-        <span class="text-ctp-yellow star-5">
+        <span class="rarity-stars">
           <%= subject.rarity == 5 ? "*****" : "****" %>
         </span>
       </h2>
-      <p class="text-sm text-ctp-subtext0 tracking-wide uppercase font-semibold">Configure
+      <p class="config-subtitle">Configure
         <%= plan_type %>
         Plan</p>
     </div>
   </header>
 
-  <%# Pass the locals into the main form %>
-  <%= render "form", subject: subject, plan_type: plan_type, errors: errors %>
+  <div id="plan-form-frame" class="custom-scrollbar">
+    <%= render "form", subject: subject, plan_type: plan_type, errors: errors %>
+  </div>
 
-  <footer class="mt-8 pt-4 border-t border-ctp-surface0">
-    <%= link_to new_plan_path(plan_type: plan_type, step: 2), 
-        data: { turbo_frame: "modal" },
-        class: "text-xs font-bold text-ctp-subtext0 hover:text-ctp-mauve flex items-center gap-1 transition-colors" do %>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-3 w-3"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="3"
-          d="M15 19l-7-7 7-7"
-        />
+  <footer class="modal-footer">
+    <%= link_to new_plan_path(plan_type: plan_type, step: 2), class: "modal-back-btn" do %>
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
       </svg>
       Back
     <% end %>

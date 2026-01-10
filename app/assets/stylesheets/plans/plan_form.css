@@ -1,47 +1,78 @@
+.error-container {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  background-color: rgba(243, 139, 168, 0.2);
+  border: 1px solid var(--ctp-red);
+  color: var(--ctp-red);
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+
+.error-list {
+  list-style-type: disc;
+  margin-left: 1.25rem;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-section {
+  padding: 1rem;
+}
+
+.stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ctp-text);
+  font-weight: 900;
+  margin-bottom: 0.75rem;
+}
+
+.stat-input-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
 /* Remove arrows/spinners from number inputs */
-.custom-number-input {
+.stat-input {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: textfield;
 
   width: 100%;
-  background-color: transparent;
+  background-color: var(--ctp-mantle);
   text-align: center;
   font-size: 1.5rem;
-  font-weight: 900;
-  outline: none;
-  border: none;
-}
-
-/* Input Wrapper Styling (Mantle background) */
-.level-input-wrapper {
-  flex: 1;
-  background-color: var(--ctp-mantle);
-  border-bottom: 2px solid var(--ctp-surface1);
+  font-weight: bold;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+
+  outline: none;
+  border-bottom: 2px solid var(--ctp-surface1);
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   transition: all 0.2s ease-in-out;
 }
 
 /* Focus State (Mauve Glow) */
-.level-input-wrapper:focus-within {
+.stat-input:focus-within {
   border-bottom-color: var(--ctp-mauve);
 }
 
-/* Color coding for Current (Subtext 0) vs Target (Mauve) */
-.custom-number-input.current {
-  color: var(--ctp-subtext0);
-}
-
-.custom-number-input.target {
-  color: var(--ctp-mauve);
-}
-
-/* Subtle label styling */
-h2.uppercase {
-  text-shadow: 0 0 10px rgba(0,0,0,0.5);
+/* Forte/Skill Grid */
+.forte-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 0.5rem;
 }
 
 .forte-column {
@@ -141,7 +172,7 @@ h2.uppercase {
   appearance: none;
   cursor: pointer;
   outline: none;
-  /* This creates the 'fill' effect using a CSS variable */
+  /* This creates the 'fill' effect */
   background-image: linear-gradient(to right, var(--ctp-mauve) 0%, var(--ctp-mauve) var(--value, 0%), var(--ctp-crust) var(--value, 0%), var(--ctp-crust) 100%);
 }
 
@@ -165,4 +196,29 @@ h2.uppercase {
   border: 2px solid var(--ctp-mauve);
   border-radius: 50%;
   cursor: pointer;
+}
+
+.form-submit-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--ctp-surface0);
+  color: var(--ctp-text);
+  font-weight: bold;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+
+  box-shadow: 0 10px 15px -3px rgba(17, 17, 27, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.form-submit-btn:hover {
+  background-color: var(--ctp-mauve);
+  color: var(--ctp-base);
+  transform: translateY(-1px);
+}
+
+.form-submit-btn:active {
+  transform: translateY(0px);
+  box-shadow: 0 4px 6px -1px rgba(17, 17, 27, 0.2);
 }

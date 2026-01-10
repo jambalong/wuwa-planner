@@ -1,0 +1,107 @@
+.modal-backdrop {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 5rem;
+
+  position: fixed;
+  inset: 0;
+  background-color: rgba(17, 17, 27, 0.6); 
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+.modal-container {
+  position: relative;
+  width: 100%;
+  max-width: 36rem;
+  background-color: var(--ctp-base);
+
+  border-radius: 1rem;
+  border: 4px solid var(--ctp-crust);
+
+  animation: modal-popup 200ms ease-out forwards;
+}
+
+#modal-content {
+  max-height: 80vh;
+}
+
+@keyframes modal-popup {
+  from {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close-btn svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+  stroke: var(--ctp-red); 
+  transition: stroke 0.2s ease, transform 0.2s ease;
+}
+
+.modal-close-btn:hover svg {
+  stroke: var(--ctp-darkred);
+  transform: scale(1.1);
+}
+
+.modal-header {
+  margin-bottom: 1rem;
+}
+
+.modal-footer {
+  padding-top: 1rem;
+  border-top: 1px solid var(--ctp-surface0);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--ctp-text);
+}
+
+.modal-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: var(--ctp-subtext0);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.modal-back-btn:hover {
+  color: var(--ctp-mauve);
+}
+
+.modal-back-btn svg {
+  width: 0.75rem;
+  height: 0.75rem;
+  stroke-width: 3px;
+}
+

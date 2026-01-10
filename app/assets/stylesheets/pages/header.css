@@ -69,12 +69,18 @@
 
 .auth-btn-secondary {
   border: 1px solid var(--ctp-surface1);
-  padding: 0.5rem 1.25rem;
+  padding: 0.5rem 1rem;
   border-radius: 0.75rem;
 }
 
+.auth-btn-secondary:hover {
+  color: var(--ctp-mauve);
+  background-color: var(--ctp-crust);
+  transform: translateY(-1px);
+}
+
 .user-badge {
-  font-size: 0.75rem;
+  font-size: 1rem;
   color: var(--ctp-mauve);
   font-family: monospace;
 }

@@ -1,11 +1,4 @@
 @import "tailwindcss";
-@import "../stylesheets/devise/authentication.css";
-@import "../stylesheets/pages/about.css";
-@import "../stylesheets/pages/dashboard.css";
-@import "../stylesheets/pages/header.css";
-@import "../stylesheets/pages/home.css";
-@import "../stylesheets/plans/ascension_planner.css";
-@import "../stylesheets/plans/plan_form.css";
 
 @theme {
   /* Base Colors */

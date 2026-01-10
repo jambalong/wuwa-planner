@@ -1,32 +1,28 @@
 <%# locals: (plan:) %>
 
-<div
-  id="<%= dom_id(plan) %>"
-  class="
-    plan-card border-2 border-ctp-mauve p-4 mb-4 rounded shadow-sm bg-ctp-mantle
-    relative
-  "
->
-  <div class="flex justify-between items-start">
-    <div>
-      <h3 class="font-bold text-xl text-ctp-blue"><%= plan.plan_data.dig("input", "subject_name") %></h3>
-    </div>
+<div id="<%= dom_id(plan) %>" class="plan-card">
+  <div class="plan-card-header">
+    <h3 class="plan-card-title">
+      <%= plan.plan_data.dig("input", "subject_name") %>
+    </h3>
 
-    <%# Delete Button %>
     <%= link_to "Delete",
     confirm_delete_plan_path(plan),
     data: {
       turbo_frame: "modal",
     },
-    class: "text-ctp-red hover:underline text-xs font-semibold p-1" %>
+    class: "delete-link" %>
   </div>
 
-  <% plan.plan_data.dig("output").each do |material_name, quantity| %>
-    <div class="flex justify-between text-ctp-text">
-      <span><%= material_name %></span>
-      <div>
-        <span class="text-ctp-surface2">x</span><span class="text-ctp-text"><%= quantity %></span>
+  <div class="plan-card-body">
+    <% plan.plan_data.dig("output").each do |material_name, quantity| %>
+      <div class="material-row">
+        <span><%= material_name %></span>
+        <div class="quantity-wrapper">
+          <span class="quantity-x">x</span>
+          <span><%= quantity %></span>
+        </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>

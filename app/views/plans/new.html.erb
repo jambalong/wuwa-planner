@@ -2,47 +2,25 @@
   <%# Modal backdrop %>
   <div
     data-controller="modal"
-    class="
-      fixed inset-0 z-50 flex items-center justify-center p-4 bg-ctp-crust-900/60
-      backdrop-blur-sm
-    "
+    class="modal-backdrop"
     data-action="keydown.esc->modal#close click->modal#closeOutside"
   >
 
-    <%# Modal content box %>
-    <div
-      class="
-        relative w-full max-w-lg bg-ctp-base rounded-2xl shadow-2xl overflow-hidden
-        border-3 border-ctp-crust animate-in fade-in zoom-in duration-200
-      "
-    >
+    <%# Modal container %>
+    <div class="modal-container">
 
       <%# Close button %>
       <button
         data-action="click->modal#close"
-        class="
-          absolute top-4 right-4 text-ctp-red-400 hover:text-ctp-red-600 transition-colors
-          z-10
-        "
+        class="modal-close-btn transition-colors"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
         </svg>
       </button>
 
-      <%# Modal step content %>
-      <div id="modal-step-content">
+      <%# Modal content %>
+      <div id="modal-content">
         <%= render "step_#{@step}",
         step: @step,
         plan_type: @plan_type,

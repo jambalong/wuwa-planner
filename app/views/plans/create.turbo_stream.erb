@@ -1,5 +1,5 @@
 <%# Add new plan to plan list %>
-<%= turbo_stream.append "plans_list" do %>
+<%= turbo_stream.append "plans-list" do %>
   <%= render partial: "plans/plan", locals: { plan: @plan } %>
 <% end %>
 

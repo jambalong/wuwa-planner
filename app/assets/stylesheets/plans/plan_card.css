@@ -1,0 +1,46 @@
+.plan-card {
+  position: relative;
+  background-color: var(--ctp-mantle);
+  border: 1px solid var(--ctp-surface2);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.plan-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.plan-card-title {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: var(--ctp-mauve);
+}
+
+.material-row {
+  display: flex;
+  justify-content: space-between;
+  color: var(--ctp-text);
+  font-size: 0.875rem;
+  padding: 0.25rem 0;
+}
+
+.quantity-x {
+  color: var(--ctp-surface2);
+  margin-right: 2px;
+}
+
+.delete-link {
+  color: var(--ctp-red);
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 0.25rem;
+}
+
+.delete-link:hover {
+  transform: scale(1.1);
+}

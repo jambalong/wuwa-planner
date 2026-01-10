@@ -64,16 +64,3 @@
   color: var(--ctp-surface2);
   text-align: center;
 }
-
-.about-status {
-  margin: auto;
-  width: 800px;
-  display: flex;
-  flex-direction: column;
-  padding: 4rem;
-  border: 4px solid var(--ctp-surface0);
-  border-radius: 1rem;
-  color: var(--ctp-text);
-  background-color: var(--ctp-mantle);
-  gap: 0.25rem;
-}

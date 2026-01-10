@@ -140,7 +140,7 @@ class PlansController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream {
-        render turbo_stream: turbo_stream.replace("plan-form-frame",
+        render turbo_stream: turbo_stream.update("plan-form-frame",
                partial: "plans/form",
                locals: {
                  errors: @errors&.uniq,

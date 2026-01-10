@@ -1,0 +1,118 @@
+.search-container {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: inherit;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--ctp-mantle);
+  border: 2px solid var(--ctp-surface2);
+  border-radius: 0.75rem;
+  transition: border-color 0.2s ease;
+  margin-top: 1rem;
+}
+
+.search-field:focus-within {
+  border-color: var(--ctp-mauve);
+}
+
+.search-icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--ctp-surface2);
+  flex-shrink: 0;
+}
+
+.search-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.search-input::placeholder {
+  color: var(--ctp-surface2);
+}
+
+.subject-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  background-color: var(--ctp-base);
+}
+
+/* Firefox */
+.custom-scrollbar {
+  scrollbar-color: var(--ctp-mauve) var(--ctp-mantle);
+  scrollbar-width: auto;
+}
+
+/* Chrome, Edge, and Safari */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 14px;
+  width: 14px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--ctp-mantle);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--ctp-mauve);
+  border-radius: 10px;
+  border: 3px solid var(--ctp-mantle); 
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--ctp-mauve); 
+}
+
+.subject-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem;
+  background-color: var(--ctp-base);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.subject-item:hover {
+  background-color: var(--ctp-surface0);
+}
+
+.subject-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  background-color: var(--ctp-mantle);
+  font-size: 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.subject-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.subject-name {
+  font-weight: bold;
+}
+
+.scroll-hint {
+  font-size: 10px;
+  color: var(--ctp-subtext0);
+  font-weight: medium;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
