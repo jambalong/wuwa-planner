@@ -79,23 +79,23 @@ class ResonatorAscensionPlanner < ApplicationService
 
     # this checks for proper level range
     unless @current_level.between?(1, 90)
-      errors << "Current Level (#{@current_level}) must be between 1 and 90."
+      errors << "Current level (#{@current_level}) must be between (1) and (90)."
     end
 
     unless @target_level.between?(1, 90)
-      errors << "Target Level (#{@target_level}) must be between 1 and 90."
+      errors << "Target level (#{@target_level}) must be between (1) and (90)."
     end
 
     # this checks for proper skill level range
     @current_skill_levels.each do |skill_name, level|
       unless level.between?(1, 10)
-        errors << "Current '#{skill_name.to_s.titleize}' level must be between 1 and 10."
+        errors << "Current '#{skill_name.to_s.titleize}' level must be between (1) and (10)."
       end
     end
 
     @target_skill_levels.each do |skill_name, level|
       unless level.between?(1, 10)
-        errors << "Target '#{skill_name.to_s.titleize}' level must be between 1 and 10."
+        errors << "Target '#{skill_name.to_s.titleize}' level must be between (1) and (10)."
       end
     end
 
@@ -111,27 +111,27 @@ class ResonatorAscensionPlanner < ApplicationService
     # this keeps level range within ascension rank
     current_max_level = ASCENSION_LEVEL_CAPS[@current_ascension_rank]
     if current_max_level.nil? || @current_level > current_max_level
-      errors << "Current level (#{@current_level}) is impossible with current ascension rank (#{@current_ascension_rank}). Max level is #{current_max_level || 'N/A'}."
+      errors << "Current level (#{@current_level}) exceeds max level (#{current_max_level}) for ascension rank (#{@current_ascension_rank})."
     end
 
     if @current_ascension_rank > 0
       min_level_required = ASCENSION_LEVEL_CAPS[@current_ascension_rank - 1]
 
       if @current_level < min_level_required
-        errors << "Current ascension rank #{@current_ascension_rank} requires a minimum level of #{min_level_required}."
+        errors << "Current ascension rank (#{@current_ascension_rank}) requires a minimum level of (#{min_level_required})."
       end
     end
 
     target_max_level = ASCENSION_LEVEL_CAPS[@target_ascension_rank]
     if target_max_level.nil? || @target_level > target_max_level
-      errors << "Target level (#{@target_level}) is impossible with target ascension rank (#{@target_ascension_rank}). Max level is #{target_max_level || 'N/A'}."
+      errors << "Target level (#{@target_level}) exceeds max level (#{target_max_level}) for Ascension Rank (#{@target_ascension_rank})."
     end
 
     if @target_ascension_rank > 0
       min_level_required = ASCENSION_LEVEL_CAPS[@target_ascension_rank - 1]
 
       if @target_level < min_level_required
-        errors << "Target ascension rank #{@target_ascension_rank} requires a minimum level of #{min_level_required}."
+        errors << "Target ascension rank (#{@target_ascension_rank}) requires a minimum level of (#{min_level_required})."
       end
     end
 
@@ -140,7 +140,7 @@ class ResonatorAscensionPlanner < ApplicationService
       target_level = @target_skill_levels[skill_name]
 
       if target_level && target_level < current_level
-        errors << "Target level for '#{skill_name.to_s.titleize}' is #{target_level}, which is less than current level (#{current_level})."
+        errors << "Current level (#{current_level}) for [#{skill_name.to_s.titleize}] exceeds target level (#{target_level})."
       end
     end
 
