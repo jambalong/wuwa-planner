@@ -16,6 +16,8 @@ class PlanForm
     attribute "#{skill}_node_2".to_sym, :integer, default: 1
   end
 
+  attr_reader :plan
+
   def save(user, guest_token, existing_plan = nil)
     plan = existing_plan || Plan.new(user: user, guest_token: guest_token, plan_type: plan_type)
     subject = (plan_type == "Resonator" ? Resonator : Weapon).find(subject_id)
@@ -61,8 +63,8 @@ class PlanForm
   def build_input_data(subject)
     # Merges levels, ranks, skills, and forte hashes into the JSONB input key
     {
-      subject_name: subject_name,
-      subject_id: subject_id,
+      subject_name: subject.name,
+      subject_id: subject.id,
       current_level: current_level,
       target_level: target_level,
       current_ascension_rank: current_ascension_rank,
