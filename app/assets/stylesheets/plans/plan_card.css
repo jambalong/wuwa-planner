@@ -43,4 +43,5 @@
 
 .delete-link:hover {
   transform: scale(1.1);
+  color: var(--ctp-darkred);
 }
