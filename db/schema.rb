@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_05_221552) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_12_010714) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,9 +40,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_221552) do
     t.string "guest_token"
     t.jsonb "plan_data", default: {}, null: false
     t.string "plan_type", null: false
+    t.integer "subject_id", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["guest_token"], name: "index_plans_on_guest_token"
+    t.index ["subject_id", "plan_type"], name: "index_plans_on_subject_id_and_plan_type"
     t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
