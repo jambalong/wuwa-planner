@@ -2,7 +2,7 @@ class PlanForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  attribute :plan_type, :string
+  attribute :subject_type, :string
   attribute :subject_id, :integer
   attribute :current_level, :integer, default: 1
   attribute :target_level, :integer, default: 90
@@ -19,15 +19,23 @@ class PlanForm
   attr_reader :plan
 
   def save(user, guest_token, existing_plan = nil)
-    plan = existing_plan || Plan.new(user: user, guest_token: guest_token, plan_type: plan_type)
-    subject = (plan_type == "Resonator" ? Resonator : Weapon).find(subject_id)
+    plan = existing_plan || Plan.new(user: user, guest_token: guest_token)
+    plan.subject_type = subject_type
+    plan.subject_id = subject_id
+
+    subject = subject_type.constantize.find(subject_id)
 
     plan.plan_data = {
       input: build_input_data(subject),
       output: run_planner_service(subject)
     }
 
-    plan.save ? plan : (errors.merge!(plan.errors) and false)
+    if plan.save
+      plan
+    else
+      errors.merge!(plan.errors)
+      false
+    end
   end
 
   # Transformation from JSONB -> Form Attributes
@@ -35,15 +43,15 @@ class PlanForm
     input = plan.plan_data["input"]
 
     attributes = {
-      plan_type: plan.plan_type,
-      subject_id: input["subject_id"],
+      subject_type: plan.subject_type,
+      subject_id: plan.subject_id,
       current_level: input["current_level"],
       target_level: input["target_level"],
       current_ascension_rank: input["current_ascension_rank"],
       target_ascension_rank: input["target_ascension_rank"]
     }
 
-    if plan.plan_type == "Resonator"
+    if plan.subject_type == "Resonator"
       %w[current target].each do |state|
         input["#{state}_skill_levels"]&.each do |skill, value|
           attributes["#{skill}_#{state}"] = value
@@ -64,18 +72,17 @@ class PlanForm
     # Merges levels, ranks, skills, and forte hashes into the JSONB input key
     {
       subject_name: subject.name,
-      subject_id: subject.id,
       current_level: current_level,
       target_level: target_level,
       current_ascension_rank: current_ascension_rank,
       target_ascension_rank: target_ascension_rank
     }.tap do |h|
-      h.merge!(resonator_input_data) if plan_type == "Resonator"
+      h.merge!(resonator_input_data) if subject_type == "Resonator"
     end
   end
 
   def run_planner_service(subject)
-    planner = if plan_type == "Resonator"
+    planner = if subject_type == "Resonator"
       ResonatorAscensionPlanner.new(
         resonator: subject,
         **base_planner_params,

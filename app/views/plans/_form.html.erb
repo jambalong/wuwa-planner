@@ -1,4 +1,4 @@
-<%# locals: (subject:, plan_type:, errors: nil) %>
+<%# locals: (subject:, subject_type:, errors: nil) %>
 
 <% if errors.present? %>
   <div class="error-container">
@@ -12,7 +12,7 @@
 
 <%= form_with(model: Plan.new, url: plans_path, method: :post, data: { controller: "plan-form" }, id: "plan-form") do |f| %>
   <%# Hidden fields to tell the Controller what we selected in Steps 1 & 2 %>
-  <%= f.hidden_field :plan_type, value: plan_type %>
+  <%= f.hidden_field :subject_type, value: subject_type %>
   <%= f.hidden_field :subject_id, value: subject.id %>
 
   <div class="stat-grid">
@@ -61,7 +61,7 @@
     </div>
   </div>
 
-  <% if plan_type == "Resonator" %>
+  <% if subject_type == "Resonator" %>
     <%# The Forte Grid %>
     <div class="forte-grid">
       <% forte_configs.each do |config| %>
