@@ -1,7 +1,16 @@
 class Plan < ApplicationRecord
   belongs_to :user, optional: true
+  belongs_to :subject, polymorphic: true
+
+  scope :planned_subject_ids, ->(type) {
+    where(subject_type: type).pluck(:subject_id)
+  }
 
   validate :must_have_owner
+  validates :subject_id, uniqueness: {
+    scope: [ :subject_type, :user_id, :guest_token ],
+    message: "already has an active plan"
+  }
 
   private
 
