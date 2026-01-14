@@ -6,7 +6,7 @@
   <%= render "plans/sync_banner", plans: updated_plans %>
 <% end %>
 
-<%= turbo_stream.update "materials-summary-container" do %>
+<%= turbo_stream.update "materials-summary-content" do %>
   <%= render "plans/materials_summary", materials_summary: @materials_summary %>
 <% end %>
 

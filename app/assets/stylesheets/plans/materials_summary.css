@@ -32,9 +32,15 @@
   font-size: 0.95rem;
 }
 
-.accordion-body {
+#materials-summary-content {
   padding: 0 1.25rem 1.25rem 1.25rem;
   border-top: 1px solid transparent;
+}
+
+.materials-list {
+  display: grid;
+  grid-template-columns: repeat(6, 2fr);
+  gap: 0.75rem;
 }
 
 .material-badge {
