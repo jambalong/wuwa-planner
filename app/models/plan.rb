@@ -12,6 +12,21 @@ class Plan < ApplicationRecord
     message: "already has an active plan"
   }
 
+  def self.fetch_materials_summary(plans)
+    totals = {}
+
+    plans.each do |plan|
+      materials = plan.plan_data.dig("output", "materials_totals") || {}
+
+      materials.each do |mat_id, quantity|
+        totals[mat_id] ||= 0
+        totals[mat_id] += quantity
+      end
+    end
+
+    totals
+  end
+
   private
 
   def must_have_owner
