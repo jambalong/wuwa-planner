@@ -43,7 +43,7 @@
   transition: all 0.2s ease;
 }
 
-.nav-link:hover, .nav-link.active {
+.nav-link:hover {
   color: var(--ctp-mauve);
 }
 
@@ -86,6 +86,31 @@
 
 .user-badge {
   font-size: 1rem;
-  color: var(--ctp-mauve);
   font-family: monospace;
+}
+
+.user-badge:hover {
+  color: var(--ctp-mauve);
+}
+
+.nav-link.active-state, 
+.user-badge.active-state {
+  color: var(--ctp-mauve);
+  background-color: #313244;
+  border-bottom: 1px solid var(--ctp-mauve);
+}
+
+body:has(turbo-frame#main_content[src$="/app"]) .nav-dashboard,
+body:has(turbo-frame#main_content[src$="/app/"]) .nav-dashboard {
+  color: var(--ctp-mauve);
+}
+
+body:has(turbo-frame#main_content[src*="/plan"]) .nav-plan {
+  color: var(--ctp-mauve);
+  border-bottom: 1px solid var(--ctp-mauve);
+}
+
+body:has(turbo-frame#main_content[src*="/inventory"]) .nav-inventory {
+  color: var(--ctp-mauve);
+  border-bottom: 1px solid var(--ctp-mauve);
 }

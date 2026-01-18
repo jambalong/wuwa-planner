@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "dashboards/show"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -20,7 +21,6 @@ Rails.application.routes.draw do
 
   scope "/app" do
     root to: "dashboards#show", as: :authenticated_root
-    resource :dashboard, only: [ :show ], controller: "dashboards"
 
     resources :plans, path: "planner" do
       member do

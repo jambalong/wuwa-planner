@@ -7,33 +7,31 @@
     <nav class="navbar-links">
       <% if user_signed_in? %>
         <%# Authenticated Links %>
-        <%= link_to "Dashboard", authenticated_root_path, 
-            data: { turbo_frame: "main_content", turbo_action: "advance" }, 
-            class: "nav-link nav-dashboards" %>
         <%= link_to "Planner", plans_path, 
             data: { turbo_frame: "main_content", turbo_action: "advance" }, 
-            class: "nav-link nav-plans" %>
+            class: "nav-link nav-plan" %>
         <%= link_to "Inventory", inventory_items_path, 
             data: { turbo_frame: "main_content", turbo_action: "advance" }, 
-            class: "nav-link nav-inventory_items" %>
+            class: "nav-link nav-inventory" %>
       <% else %>
         <%# Guest Links %>
         <%= link_to "Planner", plans_path, 
             data: { turbo_frame: "main_content", turbo_action: "advance" }, 
-            class: "nav-link nav-plans" %>
+            class: "nav-link nav-plan" %>
       <% end %>
     </nav>
 
     <div class="navbar-auths">
       <% if user_signed_in? %>
         <%= link_to "#{current_user.email.split("@").first}",
-        dashboard_path,
-        data: { turbo_frame: "main_content" },
-        class: "user-badge" %>
+        authenticated_root_path,
+        data: { turbo_frame: "main_content", turbo_action: "replace" },
+        class: "user-badge nav-dashboard" %>
         <%= link_to "Logout",
         destroy_user_session_path,
         data: {
           "turbo-method": :delete,
+          turbo_frame: "_top"
         },
         class: "nav-link auth-btn-secondary" %>
       <% else %>
