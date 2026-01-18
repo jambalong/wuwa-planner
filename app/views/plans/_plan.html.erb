@@ -20,20 +20,20 @@
   </div>
 
   <div class="plan-card-body">
-  <div class="materials-grid">
-    <% plan.plan_data.dig("output").each do |mat_id, qty| %>
-      <% material = @materials_lookup[mat_id.to_i] %>
-      
-      <div class="material-grid-item">
-        <div class="item-icon rarity-border-<%= material&.rarity || 1 %>">
-          <span class="icon-initials"><%= material&.name[0..1].upcase || "??" %></span>
-        </div>
+    <div class="materials-grid">
+      <% plan.plan_data.dig("output").each do |mat_id, qty| %>
+        <% material = @materials_lookup[mat_id.to_i] %>
+        
+        <div class="material-grid-item">
+          <div class="item-icon rarity-border-<%= material&.rarity || 1 %>">
+            <span class="icon-initials"><%= material&.name[0..1].upcase || "??" %></span>
+          </div>
 
-        <div class="mat-details">
-          <span class="quantity-number">x<%= number_with_delimiter(qty) %></span>
+          <div class="mat-details">
+            <span class="quantity-number">x<%= number_with_delimiter(qty) %></span>
+          </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
-</div>
 </div>

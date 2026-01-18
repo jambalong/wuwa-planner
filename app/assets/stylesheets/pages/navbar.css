@@ -63,6 +63,21 @@
   gap: 1.25rem;
 }
 
+.sign-in {
+  color: var(--ctp-subtext1);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.sign-in:hover {
+  color: var(--ctp-mauve);
+  background-color: var(--ctp-surface0);
+}
+
 /* Specific Auth Button Styles */
 /* .auth-btn-primary {
   background-color: var(--ctp-mauve);
@@ -79,7 +94,7 @@
   font-size: 0.875rem;
   border: 1px solid var(--ctp-surface1);
   padding: 0.5rem 1rem;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   background-color: var(--ctp-base);
 }
 

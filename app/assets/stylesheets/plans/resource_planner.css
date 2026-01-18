@@ -23,23 +23,20 @@
 }
 
 .new-plan-btn {
-  /* Layout & Sizing */
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
   width: fit-content;
   
-  /* Typography */
   font-weight: 600;
   letter-spacing: 0.025em;
   text-transform: uppercase;
 
-  /* Aesthetics */
   background-color: var(--ctp-crust);
   color: var(--ctp-text);
   padding: 0.5rem 1rem;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   border: 1px solid var(--ctp-surface1);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   
