@@ -4,7 +4,7 @@
       <h1 class="inventory-title">Inventory</h1>
       
       <%= form_with url: inventory_items_path, method: :get, 
-          data: { turbo_frame: "inventory-grid", turbo_action: "advance" }, 
+          data: { turbo_frame: "inventory-grid" }, 
           class: "filter-form" do |f| %>
         
         <div class="search-wrapper">

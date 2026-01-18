@@ -20,12 +20,30 @@
   color: var(--ctp-mauve);
 }
 
-.material-row {
+.materials-grid {
+  display: grid;
+  /* Adjust 5rem based on icon width (4rem) + some padding/gap space */
+  grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.material-grid-item {
   display: flex;
-  justify-content: space-between;
-  color: var(--ctp-text);
-  font-size: 0.875rem;
-  padding: 0.25rem 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.mat-details {
+  text-align: center;
+}
+
+.quantity-number {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-weight: bold;
+  font-size: 0.75rem;
+  color: var(--ctp-subtext0);
 }
 
 /* .quantity-x {
@@ -38,15 +56,42 @@
   font-weight: bold;
 }
 
+.plan-menu {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.edit-link {
+  color: var(--ctp-blue);
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.edit-link:hover {
+  background-color: var(--ctp-surface0);
+  border-color: var(--ctp-blue);
+  transform: translateY(-1px);
+}
+
 .delete-link {
   color: var(--ctp-red);
   font-size: 0.75rem;
   font-weight: bold;
   text-decoration: none;
-  padding: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
 
 .delete-link:hover {
-  transform: scale(1.1);
-  color: var(--ctp-darkred);
+  background-color: var(--ctp-surface0);
+  border-color: var(--ctp-red);
+  transform: translateY(-1px);
 }

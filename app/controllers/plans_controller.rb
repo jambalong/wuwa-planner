@@ -6,6 +6,9 @@ class PlansController < ApplicationController
   def index
     @plans = current_plans.includes(:subject).order(created_at: :desc)
     @materials_summary = Plan.fetch_materials_summary(@plans)
+
+    material_ids = @materials_summary.keys
+    @materials_lookup = Material.where(id: material_ids).index_by(&:id)
   end
 
   def new
@@ -71,7 +74,7 @@ class PlansController < ApplicationController
     @subject = @plan.subject
     @subject_type = @plan.subject_type
 
-    render :new
+    render :edit
   end
 
   def update
