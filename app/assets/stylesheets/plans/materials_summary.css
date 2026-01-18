@@ -1,7 +1,7 @@
 .materials-accordion {
   background-color: var(--ctp-base);
-  border: 2px solid var(--ctp-surface0);
-  border-radius: 20px;
+  border: 1px solid var(--ctp-surface0);
+  border-radius: 0.5rem;
   overflow: hidden;
   margin-bottom: 1.5rem;
 }
@@ -33,8 +33,8 @@
 }
 
 #materials-summary-content {
-  padding: 0 1.25rem 1.25rem 1.25rem;
-  border-top: 1px solid transparent;
+  padding: 1rem;
+  border-top: 1px solid var(--ctp-surface0);
 }
 
 .materials-list {
@@ -66,7 +66,6 @@
 }
 
 .empty-text {
-  color: #64748b;
-  font-style: italic;
+  color: var(--ctp-surface2);
   font-size: 0.875rem;
 }

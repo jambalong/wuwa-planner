@@ -47,7 +47,9 @@
 }
 
 .container {
-  margin: auto;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
@@ -58,7 +60,7 @@
   height: 4rem;
   margin-bottom: 0.75rem;
   border-radius: 0.5rem;
-  background-color: var(--ctp-crust);
+  background-color: var(--ctp-mantle);
   display: flex;
   align-items: center;
   justify-content: center;

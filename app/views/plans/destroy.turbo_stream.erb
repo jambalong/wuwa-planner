@@ -1,11 +1,6 @@
 <%# Use dom_id to target the exact element to remove %>
 <%= turbo_stream.remove dom_id(@plan) %>
 
-<%= turbo_stream.update "sync-banner-container" do %>
-  <% updated_plans = Plan.where(guest_token: @guest_token, user_id: nil) %>
-  <%= render "plans/sync_banner", plans: updated_plans %>
-<% end %>
-
 <%= turbo_stream.update "materials-summary-content" do %>
   <%= render "plans/materials_summary", materials_summary: @materials_summary %>
 <% end %>

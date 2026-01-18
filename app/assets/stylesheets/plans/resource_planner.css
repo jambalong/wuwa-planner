@@ -1,46 +1,60 @@
 .planner-container {
-  background: var(--ctp-base);
-  padding: 2rem;
-  width: 100%;
-  border: 2px solid var(--ctp-surface0);
-  border-radius: 20px;
   display: flex;
   flex-direction: column;
 }
 
 .planner-header {
-  margin: 2rem auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
 }
 
 .planner-title {
-  font-size: 2rem;
-  text-align: center;
-  font-weight: bold;
+  font-size: 1.75rem;
+  font-weight: 700;
 }
 
 .planner-subtitle {
+  font-size: 1rem;
   color: var(--ctp-subtext0);
   text-align: center;
 }
 
 .new-plan-btn {
-  max-width: 100%;
-  text-align: center;
-  margin: auto;
-  margin-bottom: 2rem;
-  font-size: 1.25rem;
-  font-weight: bold;
+  /* Layout & Sizing */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: fit-content;
+  
+  /* Typography */
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+
+  /* Aesthetics */
   background-color: var(--ctp-crust);
-  padding: 1rem 1.25rem;
+  color: var(--ctp-text);
+  padding: 0.5rem 1rem;
   border-radius: 0.75rem;
-  border: 2px solid var(--ctp-mauve);
+  border: 1px solid var(--ctp-surface1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  
   cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .new-plan-btn:hover {
-  background-color: var(--ctp-mauve);
-  color: var(--ctp-base);
+  background-color: var(--ctp-mantle);
+  border-color: var(--ctp-mauve);
+  color: var(--ctp-mauve);
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
 }
+
 
 #plans-list {
   display: grid;
