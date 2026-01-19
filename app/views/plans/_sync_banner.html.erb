@@ -1,19 +1,30 @@
 <% if !user_signed_in? && plans.any? %>
-  <div class="sync-banner">
-    <div class="sync-banner-content">
-      <div class="sync-banner-icon" aria-hidden="true">💾</div>
-      <div>
-        <h3 class="sync-banner-title">Sync your plans?</h3>
-        <p class="sync-banner-text">
-          You have
-          <%= pluralize(plans.count, "plan") %>
-          saved as a guest. Create an account to access them on any device.
-        </p>
-      </div>
+  <div class="sync-banner" data-controller="dismissible">
+    <div class="sync-icon">💾</div>
+    
+    <div class="sync-info">
+      <div class="sync-title">Save your progress</div>
+      <p class="sync-desc">
+        Your data is stored locally. Sign in to unlock the 
+        <strong>Inventory</strong>, <strong>Waveplate Optimizer</strong>, and <strong>Gacha Simulator</strong>.
+      </p>
     </div>
 
-    <div class="sync-banner-actions">
-      <%= link_to "Sync", new_user_registration_path, class: "sync-btn" %>
+    <div class="flex items-center gap-4">
+      <%= link_to "Sync",
+        new_user_session_path,
+        data: { turbo: false },
+        class: "sync-cta" %>
+      
+      <button type="button" 
+              data-action="click->dismissible#dismiss" 
+              class="sync-close-btn"
+              aria-label="Dismiss">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
     </div>
   </div>
 <% end %>

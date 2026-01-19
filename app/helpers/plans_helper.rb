@@ -8,4 +8,8 @@ module PlansHelper
       { label: "Intro Skill", key: "intro_skill" }
     ]
   end
+
+  def format_node_name(key)
+    key.to_s.humanize.titleize
+  end
 end

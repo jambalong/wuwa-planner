@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_05_221552) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_17_221626) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -22,6 +22,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_221552) do
     t.integer "rarity", default: 1, null: false
     t.datetime "updated_at", null: false
     t.index ["node_identifier", "material_type", "rarity"], name: "idx_on_node_identifier_material_type_rarity_358d94ea80", unique: true
+  end
+
+  create_table "inventory_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "material_id", null: false
+    t.integer "quantity", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["material_id"], name: "index_inventory_items_on_material_id"
+    t.index ["user_id", "material_id"], name: "index_inventory_items_on_user_id_and_material_id", unique: true
+    t.index ["user_id"], name: "index_inventory_items_on_user_id"
   end
 
   create_table "materials", force: :cascade do |t|
@@ -39,10 +50,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_221552) do
     t.datetime "created_at", null: false
     t.string "guest_token"
     t.jsonb "plan_data", default: {}, null: false
-    t.string "plan_type", null: false
+    t.integer "subject_id", null: false
+    t.string "subject_type", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["guest_token"], name: "index_plans_on_guest_token"
+    t.index ["subject_id", "subject_type"], name: "index_plans_on_subject_id_and_subject_type"
     t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
@@ -303,6 +316,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_221552) do
     t.string "weapon_type", null: false
   end
 
+  add_foreign_key "inventory_items", "materials"
+  add_foreign_key "inventory_items", "users"
   add_foreign_key "plans", "users"
   add_foreign_key "resonator_material_maps", "materials"
   add_foreign_key "resonator_material_maps", "resonators"

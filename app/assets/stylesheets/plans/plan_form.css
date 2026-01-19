@@ -12,13 +12,14 @@
 .error-list {
   list-style-type: disc;
   margin-left: 1.25rem;
+  font-size: 0.75rem;
 }
 
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .stat-section {
@@ -106,15 +107,21 @@
   font-size: 1rem;
 }
 
+.node-circle span {
+  color: var(--ctp-text);
+  display: flex;
+}
+
 /* The Core Node (3rd Column) Scaling */
 .inherent-node .node-2 span {
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   font-weight: 900;
 }
 
 .inherent-node .node-1 span {
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   font-weight: 900;
+  color: var(--ctp-text);
 }
 
 /* Connection/Checked State */
@@ -133,8 +140,8 @@
 }
 
 .node-diamond {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.25rem;
+  height: 2.25rem;
   background-color: var(--ctp-mantle);
   border: 2px solid var(--ctp-mauve);
   transform: rotate(45deg);
@@ -148,16 +155,15 @@
 .node-diamond span {
   transform: rotate(-45deg);
   color: var(--ctp-text);
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   font-weight: 900;
 }
 
 .skill-level-text {
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 600;
   color: var(--ctp-text);
   text-transform: uppercase;
-  letter-spacing: 0.25em;
   margin-top: 0.5rem;
   width: 100%;
   text-align: center;
@@ -196,6 +202,34 @@
   border: 2px solid var(--ctp-mauve);
   border-radius: 50%;
   cursor: pointer;
+}
+
+
+#plan-form-frame {
+  flex-grow: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+#plan-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+}
+
+.form-actions-sticky {
+  position: sticky;
+  bottom: 0;
+  
+  padding: 1rem;
+  margin-top: 1rem; 
+  width: 100%;
+  
+  background-color: var(--ctp-base);
+  border-top: 1px solid var(--ctp-surface0);
 }
 
 .form-submit-btn {

@@ -10,23 +10,25 @@
     <div class="modal-container">
 
       <%# Close button %>
-      <button
+      <%# <button
         data-action="click->modal#close"
         class="modal-close-btn transition-colors"
       >
         <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
         </svg>
-      </button>
+      </button> %>
 
       <%# Modal content %>
       <div id="modal-content">
-        <%= render "step_#{@step}",
-        step: @step,
-        plan_type: @plan_type,
-        subjects: @subjects,
-        subject: @subject,
-        errors: @errors %>
+        <% case @step %>
+        <% when 1 %>
+          <%= render "step_1" %>
+        <% when 2 %>
+          <%= render "step_2", subject_type: @subject_type, subject_list: @subject_list %>
+        <% when 3 %>
+          <%= render "step_3", plan: @form, subject: @subject, subject_type: @subject_type, errors: @errors %>
+        <% end %>
       </div>
     </div>
   </div>

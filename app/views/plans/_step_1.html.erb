@@ -1,4 +1,4 @@
-<%# locals: (step:, plan_type: nil, subjects: nil, subject: nil, errors: nil) %>
+<%# locals: (subject_type: nil, subject_list: nil, subject: nil, errors: nil) %>
 
 <div class="selection-container">
   <header class="modal-header">
@@ -8,7 +8,7 @@
 
   <div class="selection-grid">
     <%# Resonator Selection %>
-    <%= link_to new_plan_path(plan_type: "Resonator", step: 2), 
+    <%= link_to new_plan_path(subject_type: "Resonator", step: 2), 
         data: { turbo_frame: "modal" },
         class: "selection-card theme-blue" do %>
       <div class="selection-icon">
@@ -18,7 +18,7 @@
     <% end %>
 
     <%# Weapon Selection %>
-    <%= link_to new_plan_path(plan_type: "Weapon", step: 2), 
+    <%= link_to new_plan_path(subject_type: "Weapon", step: 2), 
         data: { turbo_frame: "modal" },
         class: "selection-card theme-peach" do %>
       <div class="selection-icon ">

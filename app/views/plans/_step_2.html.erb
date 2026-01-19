@@ -1,9 +1,9 @@
-<%# locals: (step:, plan_type:, subjects:, subject: nil, errors: nil) %>
+<%# locals: (subject_type:, subject_list:, subject: nil, errors: nil) %>
 
 <div class="search-container" data-controller="search-filter">
   <header class="modal-header">
     <h2 class="modal-title">Select
-      <%= plan_type %>
+      <%= subject_type %>
     </h2>
 
     <%# Search Bar Interface %>
@@ -29,40 +29,27 @@
 
   <%# Scrollable List Area %>
   <div class="subject-list custom-scrollbar">
-    <% subjects.each do |subject_record| %>
+    <% subject_list.each do |subject| %>
       <div
         data-search-filter-target="subject"
-        data-search-name="<%= subject_record.name %>"
+        data-search-name="<%= subject.name %>"
       >
-        <%= link_to new_plan_path(plan_type: plan_type, subject_id: subject_record.id, step: 3), 
+        <%= link_to new_plan_path(subject_type: subject_type, subject_id: subject.id, step: 3), 
             data: { turbo_frame: "modal" }, 
             class: "subject-item" do %>
 
           <div class="subject-info">
             <div class="subject-icon">
-              <%= plan_type == "Resonator" ? "👤" : "⚔️" %>
+              <%= subject_type == "Resonator" ? "👤" : "⚔️" %>
             </div>
             <span
-              class="subject-name <%= subject_record.rarity == 5 ? 'star-5' : 'star-4' %>"
+              class="subject-name <%= subject.rarity == 5 ? 'rarity-5' : 'rarity-4' %>"
             >
-              <%= subject_record.name %>
+              <%= subject.name %>
             </span>
           </div>
         <% end %>
       </div>
     <% end %>
   </div>
-
-  <footer class="modal-footer">
-    <%= link_to new_plan_path(step: 1), 
-        data: { turbo_frame: "modal" },
-        class: "modal-back-btn" do %>
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
-      </svg>
-      Back
-    <% end %>
-
-    <span class="scroll-hint">Scroll for more</span>
-  </footer>
 </div>

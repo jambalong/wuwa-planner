@@ -1,88 +1,58 @@
 class PlansController < ApplicationController
   before_action :set_guest_token
-  before_action :set_plan, only: [ :destroy, :confirm_delete ]
-  before_action :authorize_owner!, only: [ :destroy, :confirm_delete ]
+  before_action :set_plan, only: [ :edit, :update, :destroy, :confirm_delete ]
+  before_action :authorize_owner!, only: [ :edit, :update, :destroy, :confirm_delete ]
 
   def index
-    if user_signed_in?
-      @plans = current_user.plans
-    else
-      @plans = Plan.where(guest_token: @guest_token, user_id: nil)
-    end
+    @plans = current_plans.includes(:subject).order(created_at: :asc)
+    @materials_summary = Plan.fetch_materials_summary(@plans)
+
+    material_ids = @materials_summary.keys
+    @materials_lookup = Material.where(id: material_ids).index_by(&:id)
   end
 
   def new
     @step = (params[:step] || 1).to_i
-    @plan_type = params[:plan_type] || params.dig(:plan, :plan_type)
-    @subjects = []
-    @subject = nil
+    @subject_type = params[:subject_type] || params.dig(:plan, :subject_type)
 
     case @step
     when 2
-      @subjects = (@plan_type == "Resonator" ? Resonator : Weapon).order(:name)
+      already_planned_ids = current_plans.planned_subject_ids(@subject_type)
+      @subject_list = @subject_type.constantize.where.not(id: already_planned_ids).order(:name)
     when 3
-      subject_id = params[:subject_id] || params.dig(:plan, :subject_id)
-      @subject = (@plan_type == "Resonator" ? Resonator : Weapon).find(subject_id)
+      @subject = @subject_type.constantize.find(params[:subject_id])
+      @form = PlanForm.new(subject_type: @subject_type, subject_id: @subject.id)
     end
     # Rails automatically renders new.html.erb, which uses the @variables above
+
+    render layout: false if turbo_frame_request?
   end
 
   def create
-    p = plan_params
-    plan_type = p[:plan_type]
-    subject = (plan_type == "Resonator" ? Resonator : Weapon).find_by!(id: p[:subject_id])
+    @form = PlanForm.new(plan_params)
+    @subject_type = @form.subject_type
 
+    # Safe constantize to find the record
+    @subject = @subject_type.safe_constantize&.find_by(id: @form.subject_id)
     @errors = []
 
-    existing = if user_signed_in?
-      current_user.plans.find_by("plan_data->'input'->>'subject_id' = ?", subject.id.to_s)
-    else
-      Plan.where(user_id: nil, guest_token: @guest_token)
-          .find_by("plan_data->'input'->>'subject_id' = ?", subject.id.to_s)
-    end
-
-    if existing
-      @errors = [ "You already have a plan for #{subject.name}." ]
-      return render_form_with_errors
-    end
+    return handle_missing_subject if @subject.nil?
 
     begin
-      resonator_data = plan_type == "Resonator" ? build_resonator_data(p) : {}
+      @plan = @form.save(current_user, @guest_token)
 
-      planner = if plan_type == "Resonator"
-        ResonatorAscensionPlanner.new(
-          resonator: subject,
-          **base_params(p),
-          **resonator_data
-        )
-      else
-        WeaponAscensionPlanner.new(
-          weapon: subject,
-          **base_params(p)
-        )
-      end
+      if @plan
+        all_plans = current_plans
+        all_material_ids = all_plans.flat_map { |p| p.plan_data.dig("output")&.keys }.compact.uniq
+        @materials_lookup = Material.where(id: all_material_ids).index_by(&:id)
+        @materials_summary = Plan.fetch_materials_summary(all_plans)
 
-      output_data = planner.call
-      material_names = Material.where(id: output_data.keys).pluck(:id, :name).to_h
-      final_output = output_data.sort.to_h.transform_keys { |id| material_names[id.to_i] || "N/A" }
-
-      @plan = Plan.new(
-        plan_type: plan_type,
-        guest_token: @guest_token,
-        user: current_user,
-        plan_data: {
-          input: { subject_name: subject.name, subject_id: subject.id, **base_params(p) }.merge(resonator_data),
-          output: final_output
-        }
-      )
-
-      if @plan.save
         respond_to do |format|
-          format.turbo_stream
+          format.turbo_stream # This will look for create.turbo_stream.erb
           format.html { redirect_to plans_path }
         end
       else
-        @errors = @plan.errors.full_messages
+        @errors = @form.errors.full_messages
         render_form_with_errors
       end
 
@@ -90,7 +60,48 @@ class PlansController < ApplicationController
       @errors = e.message.split("|")
       render_form_with_errors
     rescue ActiveRecord::RecordNotFound
-      @errors = [ "The selected #{plan_type} could not be found." ]
+      @errors = [ "The selected #{@subject_type} could not be found." ]
+      render_form_with_errors
+    rescue StandardError => e
+      @errors = [ "An error occurred: #{e.message}" ]
+      render_form_with_errors
+    end
+  end
+
+  def edit
+    @form = PlanForm.from_plan(@plan)
+    @subject = @plan.subject
+    @subject_type = @plan.subject_type
+
+    render :edit
+  end
+
+  def update
+    @form = PlanForm.new(plan_params)
+    @subject = @plan.subject
+    @subject_type = @plan.subject_type
+
+    begin
+      if @form.save(current_user, @guest_token, @plan)
+        all_plans = current_plans
+        all_material_ids = all_plans.flat_map { |p| p.plan_data.dig("output")&.keys }.compact.uniq
+        @materials_lookup = Material.where(id: all_material_ids).index_by(&:id)
+        @materials_summary = Plan.fetch_materials_summary(all_plans)
+
+        respond_to do |format|
+          format.turbo_stream
+          format.html { redirect_to plans_path }
+        end
+      else
+        @errors = @form.errors.full_messages
+        render_form_with_errors
+      end
+
+    rescue ResonatorAscensionPlanner::ValidationError, WeaponAscensionPlanner::ValidationError => e
+      @errors = e.message.split("|")
+      render_form_with_errors
+    rescue ActiveRecord::RecordNotFound
+      @errors = [ "The selected #{@subject_type} could not be found." ]
       render_form_with_errors
     rescue StandardError => e
       @errors = [ "An error occurred: #{e.message}" ]
@@ -103,6 +114,11 @@ class PlansController < ApplicationController
 
   def destroy
     @plan.destroy
+
+    remaining_plans = current_plans
+    all_material_ids = remaining_plans.flat_map { |p| p.plan_data.dig("output")&.keys }.compact.uniq
+    @materials_lookup = Material.where(id: all_material_ids).index_by(&:id)
+    @materials_summary = Plan.fetch_materials_summary(remaining_plans)
 
     respond_to do |format|
       format.turbo_stream # This will look for destroy.turbo_stream.erb
@@ -121,7 +137,7 @@ class PlansController < ApplicationController
   end
 
   def set_plan
-    @plan = Plan.find(params[:id])
+    @plan = current_plans.find(params[:id])
   end
 
   def authorize_owner!
@@ -133,26 +149,38 @@ class PlansController < ApplicationController
     end
   end
 
+  def handle_missing_subject
+    @errors = [ "The selected #{@subject_type || 'subject'} could not be found." ]
+    render_form_with_errors
+  end
+
   def render_form_with_errors
-    plan_type = params[:plan_type] || params.dig(:plan, :plan_type)
-    subject_id = params[:subject_id] || params.dig(:plan, :subject_id)
-    subject = (plan_type == "Resonator" ? Resonator : Weapon).find(subject_id)
+    plan_to_render = @form || PlanForm.from_plan(@plan || Plan.new)
 
     respond_to do |format|
       format.turbo_stream {
         render turbo_stream: turbo_stream.update("plan-form-frame",
-               partial: "plans/form",
-               locals: {
-                 errors: @errors&.uniq,
-                 subject: subject,
-                 plan_type: plan_type
-               })
+          partial: "plans/form",
+          locals: {
+            plan: plan_to_render,
+            subject: @subject,
+            subject_type: @subject_type,
+            errors: @errors
+          })
       }
     end
   end
 
+  def current_plans
+    if user_signed_in?
+      current_user.plans
+    else
+      Plan.where(user_id: nil, guest_token: @guest_token)
+    end
+  end
+
   def plan_params
-    core = [ :plan_type, :subject_id, :current_level, :target_level, :current_ascension_rank, :target_ascension_rank ]
+    core = [ :id, :subject_type, :subject_id, :current_level, :target_level, :current_ascension_rank, :target_ascension_rank ]
 
     # Skill fields
     skills = [
@@ -173,47 +201,5 @@ class PlansController < ApplicationController
     ]
 
     params.require(:plan).permit(core + skills + nodes)
-  end
-
-  def base_params(p)
-    {
-      current_level: p[:current_level].to_i,
-      target_level: p[:target_level].to_i,
-      current_ascension_rank: p[:current_ascension_rank].to_i,
-      target_ascension_rank: p[:target_ascension_rank].to_i
-    }
-  end
-
-  def build_resonator_data(p)
-    {
-      current_skill_levels: map_skills(p, :current),
-      target_skill_levels: map_skills(p, :target),
-      forte_node_upgrades: map_nodes(p)
-    }
-  end
-
-  def map_skills(p, suffix)
-    {
-      basic_attack: p["basic_attack_#{suffix}"].to_i,
-      resonance_skill: p["resonance_skill_#{suffix}"].to_i,
-      forte_circuit: p["forte_circuit_#{suffix}"].to_i,
-      resonance_liberation: p["resonance_liberation_#{suffix}"].to_i,
-      intro_skill: p["intro_skill_#{suffix}"].to_i
-    }
-  end
-
-  def map_nodes(p)
-    {
-      "Basic Attack Node 1" => p[:basic_attack_node_1].to_i,
-      "Basic Attack Node 2" => p[:basic_attack_node_2].to_i,
-      "Resonance Skill Node 1" => p[:resonance_skill_node_1].to_i,
-      "Resonance Skill Node 2" => p[:resonance_skill_node_2].to_i,
-      "Forte Circuit Node 1" => p[:forte_circuit_node_1].to_i,
-      "Forte Circuit Node 2" => p[:forte_circuit_node_2].to_i,
-      "Resonance Liberation Node 1" => p[:resonance_liberation_node_1].to_i,
-      "Resonance Liberation Node 2" => p[:resonance_liberation_node_2].to_i,
-      "Intro Skill Node 1" => p[:intro_skill_node_1].to_i,
-      "Intro Skill Node 2" => p[:intro_skill_node_2].to_i
-    }
   end
 end

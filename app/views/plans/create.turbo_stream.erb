@@ -3,9 +3,8 @@
   <%= render partial: "plans/plan", locals: { plan: @plan } %>
 <% end %>
 
-<%= turbo_stream.update "sync-banner-container" do %>
-  <% updated_plans = Plan.where(guest_token: @guest_token, user_id: nil) %>
-  <%= render "plans/sync_banner", plans: updated_plans %>
+<%= turbo_stream.update "materials-summary-content" do %>
+  <%= render "plans/materials_summary", materials_summary: @materials_summary %>
 <% end %>
 
 <%# Close the new plan modal %>

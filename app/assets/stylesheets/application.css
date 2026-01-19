@@ -9,6 +9,24 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: -webkit-fill-available;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+main.no-scroll {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+}
+
 .hidden {
   display: none !important;
 }
@@ -47,9 +65,27 @@
 }
 
 .container {
-  margin: auto;
-  margin-top: 4rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
 }
 
+.item-icon {
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: var(--ctp-mantle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rarity-border-1 { border-bottom: 4px solid var(--ctp-overlay2); }
+.rarity-border-2 { border-bottom: 4px solid var(--ctp-green); }
+.rarity-border-3 { border-bottom: 4px solid var(--ctp-blue); }
+.rarity-border-4 { border-bottom: 4px solid var(--ctp-mauve); }
+.rarity-border-5 { border-bottom: 4px solid var(--ctp-peach); }

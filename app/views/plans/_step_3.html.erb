@@ -1,4 +1,4 @@
-<%# locals: (step:, subject:, plan_type:, subjects: nil, errors: nil) %>
+<%# locals: (plan:, subject:, subject_type:, errors: nil) %>
 
 <div class="config-container">
   <header class="config-header">
@@ -10,21 +10,12 @@
         </span>
       </h2>
       <p class="config-subtitle">Configure
-        <%= plan_type %>
+        <%= subject_type %>
         Plan</p>
     </div>
   </header>
 
   <div id="plan-form-frame" class="custom-scrollbar">
-    <%= render "form", subject: subject, plan_type: plan_type, errors: errors %>
+    <%= render "form", plan: plan, subject: subject, subject_type: subject_type, errors: errors %>
   </div>
-
-  <footer class="modal-footer">
-    <%= link_to new_plan_path(plan_type: plan_type, step: 2), class: "modal-back-btn" do %>
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
-      </svg>
-      Back
-    <% end %>
-  </footer>
 </div>

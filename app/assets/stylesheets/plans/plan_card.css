@@ -1,9 +1,8 @@
 .plan-card {
   position: relative;
-  background-color: var(--ctp-mantle);
-  border: 1px solid var(--ctp-surface2);
+  background-color: var(--ctp-base);
+  border: 1px solid var(--ctp-surface0);
   border-radius: 0.5rem;
-  padding: 1rem;
   margin-bottom: 1rem;
 }
 
@@ -11,26 +10,71 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 0.75rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--ctp-surface0);
 }
 
 .plan-card-title {
   font-weight: bold;
   font-size: 1.25rem;
-  color: var(--ctp-mauve);
-}
-
-.material-row {
-  display: flex;
-  justify-content: space-between;
   color: var(--ctp-text);
-  font-size: 0.875rem;
-  padding: 0.25rem 0;
 }
 
-.quantity-x {
+.plan-card-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.material-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mat-details {
+  text-align: center;
+}
+
+.quantity-number {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-weight: bold;
+  font-size: 0.75rem;
+  color: var(--ctp-subtext0);
+}
+
+/* .quantity-x {
   color: var(--ctp-surface2);
   margin-right: 2px;
+} */
+
+.quantity-number {
+  font-family: ui-monospace, monospace;
+  font-weight: bold;
+}
+
+.plan-menu {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.edit-link {
+  color: var(--ctp-blue);
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.edit-link:hover {
+  background-color: var(--ctp-surface0);
+  border-color: var(--ctp-blue);
+  transform: translateY(-1px);
 }
 
 .delete-link {
@@ -38,9 +82,14 @@
   font-size: 0.75rem;
   font-weight: bold;
   text-decoration: none;
-  padding: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
 
 .delete-link:hover {
-  transform: scale(1.1);
+  background-color: var(--ctp-surface0);
+  border-color: var(--ctp-red);
+  transform: translateY(-1px);
 }
