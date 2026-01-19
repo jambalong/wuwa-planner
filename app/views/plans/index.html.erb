@@ -5,7 +5,7 @@
 
   <div class="planner-container">
     <div class="planner-header">
-      <h1 class="planner-title">Resource Planner</h1>
+      <h1 class="planner-title">Planner</h1>
       <%# <h2 class="planner-subtitle">Your definitive shopping list for Resonator and Weapon ascension, level,
         skill, and forte upgrade materials!</h2> %>
 
@@ -32,7 +32,9 @@
           </svg>
         </summary>
 
-        <%= render "plans/materials_summary", materials_summary: @materials_summary %>
+        <div id="materials-summary-content">
+          <%= render "materials_summary", materials_summary: @materials_summary %>
+        </div>
 
       </details>
     </section>

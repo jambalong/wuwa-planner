@@ -1,53 +1,34 @@
 <%= turbo_frame_tag "main_content" do %>
-  <div class="dashboard-wrapper">
-    
-    <section class="stats-grid">
-      <div class="stat-card">
-        <span class="stat-icon">📋</span>
-        <div class="stat-value"><%= @active_plans_count %></div>
-        <div class="stat-label">Active Plans</div>
-      </div>
-
-      <div class="stat-card">
-        <span class="stat-icon">📦</span>
-        <div class="stat-value"><%= @materials_needed_count %></div>
-        <div class="stat-label">Materials Needed</div>
-      </div>
-
-      <div class="stat-card">
-        <span class="stat-icon">⚡</span>
-        <div class="stat-value"><%= @farming_progress %>%</div>
-        <div class="stat-label">Farming Progress</div>
-      </div>
-
-      <div class="stat-card">
-        <span class="stat-icon">📅</span>
-        <div class="stat-value"><%= @estimated_days %></div>
-        <div class="stat-label">Days Left</div>
-      </div>
-    </section>
-
-    <div class="dashboard-content-layout">
-      <div class="dashboard-main">
-        <div class="section-header">
-          <h2>Recent Plans</h2>
-          <%= link_to "View All →", plans_path, data: { turbo_action: "advance" } %>
-        </div>
-        
-        <div class="recent-plans-list">
-          <%= render @recent_plans %>
-          <% if @recent_plans.empty? %>
-            <p class="empty-text">No plans created yet. Start one in the Planner!</p>
-          <% end %>
-        </div>
-      </div>
-
-      <aside class="dashboard-sidebar">
-        <h3>Quick Actions</h3>
-        <%= link_to "New Plan", new_plan_path, data: { turbo_frame: "modal" }, class: "action-card" %>
-        <%= link_to "Inventory", inventory_items_path, class: "action-card" %>
-      </aside>
+  <div class="dashboard-content-layout">
+  <div class="dashboard-card">
+    <div class="section-header">
+      <h2 class="section-title">Recent Plans</h2>
+      <%= link_to "View All →", plans_path, class: "modal-back-btn" %>
     </div>
-
+    
+    <div class="plans-column">
+      <%= render @recent_plans %>
+    </div>
   </div>
+
+  <aside class="dashboard-card">
+    <div class="section-header">
+      <h2 class="section-title">Quick Actions</h2>
+    </div>
+    
+    <div class="quick-actions-list">
+      <%= link_to plans_path, class: "action-link" do %>
+        <span class="icon">➕</span> Planner
+      <% end %>
+      
+      <%= link_to inventory_items_path, class: "action-link" do %>
+        <span class="icon">📦</span> Inventory
+      <% end %>
+      
+      <%= link_to edit_user_registration_path, data: { turbo: false }, class: "action-link" do %>
+        <span class="icon">⚙️</span> Settings
+      <% end %>
+    </div>
+  </aside>
+</div>
 <% end %>

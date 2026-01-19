@@ -3,7 +3,6 @@
   background-color: var(--ctp-base);
   border: 1px solid var(--ctp-surface0);
   border-radius: 0.5rem;
-  padding: 1rem;
   margin-bottom: 1rem;
 }
 
@@ -11,21 +10,21 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 0.75rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--ctp-surface0);
 }
 
 .plan-card-title {
   font-weight: bold;
   font-size: 1.25rem;
-  color: var(--ctp-mauve);
+  color: var(--ctp-text);
 }
 
-.materials-grid {
+.plan-card-body {
   display: grid;
-  /* Adjust 5rem based on icon width (4rem) + some padding/gap space */
   grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
   gap: 1rem;
-  margin-top: 0.5rem;
+  padding: 1rem;
 }
 
 .material-grid-item {

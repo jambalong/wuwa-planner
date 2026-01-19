@@ -15,8 +15,13 @@ Rails.application.routes.draw do
     get "sign-in", to: "devise/sessions#new", as: :new_user_session
     post "sign-in", to: "devise/sessions#create", as: :user_session
     delete "logout", to: "devise/sessions#destroy", as: :destroy_user_session
+
     get "signup", to: "devise/registrations#new", as: :new_user_registration
     post "signup", to: "devise/registrations#create", as: :user_registration
+
+    get "settings", to: "devise/registrations#edit", as: :edit_user_registration
+    patch "settings", to: "devise/registrations#update"
+    put "settings", to: "devise/registrations#update"
   end
 
   scope "/app" do

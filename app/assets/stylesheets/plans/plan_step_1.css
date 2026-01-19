@@ -23,7 +23,7 @@
   align-items: center;
   padding: 1.5rem;
   background-color: var(--ctp-mantle);
-  border: 2px solid var(--ctp-overlay1);
+  border: 1px solid var(--ctp-surface2);
   border-radius: 1rem;
   text-decoration: none;
   transition: all 0.2s ease;

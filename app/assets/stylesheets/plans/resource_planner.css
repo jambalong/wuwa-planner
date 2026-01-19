@@ -65,12 +65,5 @@
   }
 }
 
-.star-5 {
-  /* color: #f4c701; */
-  color: var(--ctp-peach);
-}
-
-.star-4 {
-  /* color: #b778d8; */
-  color: var(--ctp-lavender)
-}
+.rarity-5 { color: var(--ctp-peach); }
+.rarity-4 { color: var(--ctp-mauve); }

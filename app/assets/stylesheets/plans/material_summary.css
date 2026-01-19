@@ -37,10 +37,12 @@
   border-top: 1px solid var(--ctp-surface0);
 }
 
-.materials-list {
-  display: grid;
-  grid-template-columns: repeat(6, 2fr);
-  gap: 0.75rem;
+.material-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
 }
 
 .material-badge {
@@ -51,18 +53,6 @@
   background-color: var(--ctp-mantle);
   border: 1px solid var(--ctp-surface1);
   border-radius: 6px;
-}
-
-.mat-name {
-  color: var(--ctp-text);
-  font-size: 0.8rem;
-}
-
-.mat-qty {
-  color: var(--ctp-text);
-  font-family: ui-monospace, monospace;
-  font-weight: bold;
-  font-size: 0.9rem;
 }
 
 .empty-text {

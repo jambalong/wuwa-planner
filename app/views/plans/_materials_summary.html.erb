@@ -1,16 +1,21 @@
 <%# locals: (materials_summary:) %>
 
-<div id="materials-summary-content">
-  <% if materials_summary.any? %>
-    <div class="materials-list">
-      <% materials_summary.each do |material, qty| %>
-        <div class="material-badge">
-          <span class="mat-name"><%= material %></span>
-          <span class="mat-qty">x<%= number_with_delimiter(qty) %></span>
+<% if materials_summary.any? %>
+  <div class="material-list">
+    <% materials_summary.each do |mat_id, qty| %>
+      <% material = @materials_lookup[mat_id.to_i] %>
+      
+      <div class="material-grid-item">
+        <div class="item-icon rarity-border-<%= material&.rarity || 1 %>">
+          <span class="icon-initials"><%= material&.name[0..1].upcase || "??" %></span>
         </div>
-      <% end %>
-    </div>
-  <% else %>
-    <p class="empty-text">No plans created yet.</p>
-  <% end %>
-</div>
+
+        <div class="mat-details">
+          <span class="quantity-number">x<%= number_with_delimiter(qty) %></span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="empty-text">No plans created yet.</p>
+<% end %>

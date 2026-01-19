@@ -42,9 +42,10 @@ class PlansController < ApplicationController
       @plan = @form.save(current_user, @guest_token)
 
       if @plan
-        material_ids = @plan.plan_data.dig("output")&.keys || []
-        @materials_lookup = Material.where(id: material_ids).index_by(&:id)
-        @materials_summary = Plan.fetch_materials_summary(current_plans)
+        all_plans = current_plans
+        all_material_ids = all_plans.flat_map { |p| p.plan_data.dig("output")&.keys }.compact.uniq
+        @materials_lookup = Material.where(id: all_material_ids).index_by(&:id)
+        @materials_summary = Plan.fetch_materials_summary(all_plans)
 
         respond_to do |format|
           format.turbo_stream # This will look for create.turbo_stream.erb
@@ -82,9 +83,10 @@ class PlansController < ApplicationController
 
     begin
       if @form.save(current_user, @guest_token, @plan)
-        material_ids = @plan.plan_data.dig("output")&.keys || []
-        @materials_lookup = Material.where(id: material_ids).index_by(&:id)
-        @materials_summary = Plan.fetch_materials_summary(current_plans)
+        all_plans = current_plans
+        all_material_ids = all_plans.flat_map { |p| p.plan_data.dig("output")&.keys }.compact.uniq
+        @materials_lookup = Material.where(id: all_material_ids).index_by(&:id)
+        @materials_summary = Plan.fetch_materials_summary(all_plans)
 
         respond_to do |format|
           format.turbo_stream
@@ -113,7 +115,11 @@ class PlansController < ApplicationController
   def destroy
     @plan.destroy
 
-    @materials_summary = Plan.fetch_materials_summary(current_plans)
+    remaining_plans = current_plans
+    all_material_ids = remaining_plans.flat_map { |p| p.plan_data.dig("output")&.keys }.compact.uniq
+    @materials_lookup = Material.where(id: all_material_ids).index_by(&:id)
+    @materials_summary = Plan.fetch_materials_summary(remaining_plans)
+
     respond_to do |format|
       format.turbo_stream # This will look for destroy.turbo_stream.erb
       format.html { redirect_to plans_path, notice: "Plan deleted." }

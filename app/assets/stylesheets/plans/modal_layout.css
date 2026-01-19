@@ -19,7 +19,7 @@
   background-color: var(--ctp-base);
 
   border-radius: 1rem;
-  border: 4px solid var(--ctp-crust);
+  border: 2px solid var(--ctp-crust);
 
   animation: modal-popup 200ms ease-out forwards;
 }
