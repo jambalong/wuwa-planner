@@ -5,7 +5,7 @@
   background-color: var(--ctp-base);
   padding: 2rem;
   border-radius: 1rem;
-  border: 2px solid var(--ctp-surface2);
+  border: 1px solid var(--ctp-surface2);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 

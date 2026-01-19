@@ -1,36 +1,215 @@
 <%= turbo_frame_tag "main_content" do %>
-  <div class="hero-container ">
-    <div class="hero-content">
-      <h1 class="hero-title">A Wuthering Waves <span>Companion.</span></h1>
-      <p class="hero-subtitle">
-        The ultimate resource planner for Wuthering Waves. 
-        Track levels, ascensions, skill and forte upgrades with precision.
-      </p>
-      
-      <div class="hero-actions">
-        <%= link_to "✮⋆˙ Start Planning",
-          plans_path,
-          data: { turbo_frame: "main_content", turbo_action: "advance" },
-          class: "btn-primary-large" %>
-      </div>
-    </div>
+  <div class="landing-wrapper">
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="system-status">
+          <span class="status-dot"></span>
+          SYSTEM ONLINE :: v1.0.1
+        </div>
+        
+        <h1 class="hero-title">
+          PANGU<span class="text-mauve">TERMINAL</span>
+        </h1>
+        
+        <p class="hero-subtitle">
+          The #1 fan-made resource app for Wuthering Waves.
+          <br>
+          <br>
+          <span class="feature-tick">></span> Plan for Resonators and Weapons.
+          <br>
+          <span class="feature-tick">></span> Track materials in Inventory.
+          <br>
+          <span class="feature-tick">></span> Sync across devices with an account.
+          <br>
+          <span class="feature-tick">></span> <strong>And more upcoming features!</strong>
+        </p>
 
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🧪</div>
-        <h3>Exact Costs</h3>
-        <p>Every Shell Credit and Ascension Materials accounted for.</p>
+        <div class="hero-actions">
+          <%= link_to plans_path, 
+              data: { turbo_frame: "main_content", turbo_action: "advance" },
+              class: "btn-terminal-primary" do %>
+            <span>></span> INITIALIZE_PLANNER
+          <% end %>
+
+          <%= link_to inventory_items_path, 
+              data: { turbo_frame: "main_content", turbo: false },
+              class: "btn-terminal-outline" do %>
+            <span>$</span> CHECK_INVENTORY
+          <% end %>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">⚔️</div>
-        <h3>Weapon Support</h3>
-        <p>Plan for both your Resonators and their Weapons.</p>
+
+      <!-- Terminal Window Mockup -->
+      <div class="terminal-window">
+        <div class="window-header">
+          <div class="window-buttons">
+            <span class="bg-red"></span>
+            <span class="bg-yellow"></span>
+            <span class="bg-green"></span>
+          </div>
+          <div class="window-title">ascension_planner.exe</div>
+        </div>
+        
+        <div class="window-body">
+          <!-- Mock Plan Header -->
+          <div class="mock-header">
+            <div class="mock-title">
+              Augusta <span class="text-peach">★★★★★</span>
+            </div>
+            <div class="mock-subtitle">CONFIGURE RESONATOR PLAN</div>
+          </div>
+
+          <!-- Mock Stats -->
+          <div class="mock-stats-row">
+            <div class="mock-stat-box">
+              <span class="label">LEVEL</span>
+              <div class="value-row">
+                1 <span class="arrow">→</span> <span class="highlight">90</span>
+              </div>
+            </div>
+            <div class="mock-stat-box">
+              <span class="label">ASCENSION</span>
+              <div class="value-row">
+                0 <span class="arrow">→</span> <span class="highlight">6</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mock Forte Node Tree -->
+          <div class="mock-nodes-container">
+            <!-- Column 1: Normal Attack -->
+            <div class="mock-node-col">
+              <div class="mock-circle active">✱</div>
+              <div class="mock-line active"></div>
+              <div class="mock-circle active">✱</div>
+              <div class="mock-line active"></div>
+              <div class="mock-diamond active">✱</div>
+              <span>8 → 10</span>
+              <div class="mock-slider-track">
+                <div class="mock-slider-fill" style="width: 80%;"></div>
+                <div class="mock-slider-thumb" style="left: 80%;"></div>
+              </div>
+            </div>
+
+            <!-- Column 2: Resonance Skill -->
+            <div class="mock-node-col">
+              <div class="mock-circle">✱</div>
+              <div class="mock-line"></div>
+              <div class="mock-circle active">✱</div>
+              <div class="mock-line active"></div>
+              <div class="mock-diamond active">✱</div>
+              <span>6 → 10</span>
+              <div class="mock-slider-track">
+                <div class="mock-slider-fill" style="width: 60%;"></div>
+                <div class="mock-slider-thumb" style="left: 60%;"></div>
+              </div>
+            </div>
+
+            <!-- Column 3: Liberation (Hidden on Small Mobile) -->
+            <div class="mock-node-col mobile-hide">
+              <div class="mock-circle active">✱</div>
+              <div class="mock-line active"></div>
+              <div class="mock-circle active">✱</div>
+              <div class="mock-line active"></div>
+              <div class="mock-diamond active">✱</div>
+              <span>10 → 10</span>
+              <div class="mock-slider-track">
+                <div class="mock-slider-fill" style="width: 100%;"></div>
+                <div class="mock-slider-thumb" style="left: 95%;"></div>
+              </div>
+            </div>
+
+            <!-- Column 4: Intro Skill -->
+            <div class="mock-node-col">
+              <div class="mock-circle">✱</div>
+              <div class="mock-line"></div>
+              <div class="mock-circle active">✱</div>
+              <div class="mock-line active"></div>
+              <div class="mock-diamond active">✱</div>
+              <span>5 → 10</span>
+              <div class="mock-slider-track">
+                <div class="mock-slider-fill" style="width: 50%;"></div>
+                <div class="mock-slider-thumb" style="left: 50%;"></div>
+              </div>
+            </div>
+
+            <!-- Column 5: Outro Skill -->
+            <div class="mock-node-col">
+              <div class="mock-circle">✱</div>
+              <div class="mock-line"></div>
+              <div class="mock-circle">✱</div>
+              <div class="mock-line"></div>
+              <div class="mock-diamond active">✱</div>
+              <span>2 → 10</span>
+              <div class="mock-slider-track">
+                <div class="mock-slider-fill" style="width: 20%;"></div>
+                <div class="mock-slider-thumb" style="left: 20%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">☁️</div>
-        <h3>Cloud Sync</h3>
-        <p>Save plans as a guest or sign up to sync across devices.</p>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="card-icon">📋</div>
+          <h3>Ascension Planner</h3>
+          <p>Create personalized upgrade plans for Resonators and Weapons. Calculate exact material costs from level 1 to 90, with full ascension support.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="card-icon">📦</div>
+          <h3>Inventory Tracking</h3>
+          <p>Input your materials once and let the system track everything. See owned vs. needed across all plans with real-time progress bars.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="card-icon">🔄</div>
+          <h3>Synthesis Calculator</h3>
+          <p>Automatic 3-to-1 material conversion detection. The system calculates your "effective inventory" to prevent over-farming and wasted Waveplates.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="card-icon">☁️</div>
+          <h3>Cloud Save</h3>
+          <p>Sign up to sync your plans and inventory across all devices. Guest mode available for quick calculations without registration.</p>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <!-- CTA Section -->
+    <% unless user_signed_in? %>
+      <section class="cta-section">
+        <div class="cta-card">
+          <h2>Ready to optimize your progression?</h2>
+          <p>Sign up to save your plans, sync your inventory, and access advanced features.</p>
+          <div class="cta-actions">
+            <%= link_to "Create Free Account", new_user_registration_path, 
+                data: { turbo: false },
+                class: "btn-terminal-primary" %>
+            <%= link_to "Continue as Guest", plans_path,
+                data: { turbo_frame: "main_content", turbo_action: "advance" },
+                class: "btn-terminal-outline" %>
+          </div>
+        </div>
+      </section>
+    <% end %>
+
+    <!-- Footer -->
+    <footer class="terminal-footer">
+      <div class="footer-content">
+        <p>&copy; <%= Time.now.year %> PANGU TERMINAL. OPEN SOURCE PROJECT.</p>
+        <div class="footer-links">
+          <a href="https://github.com/jambalong/pangu-terminal" target="_blank" rel="noopener">GITHUB</a>
+          <%# <span class="separator">|</span> %>
+        </div>
+      </div>
+    </footer>
+
   </div>
 <% end %>

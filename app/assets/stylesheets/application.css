@@ -89,3 +89,86 @@ main.no-scroll {
 .rarity-border-3 { border-bottom: 4px solid var(--ctp-blue); }
 .rarity-border-4 { border-bottom: 4px solid var(--ctp-mauve); }
 .rarity-border-5 { border-bottom: 4px solid var(--ctp-peach); }
+
+#flash-container {
+  position: fixed;
+  top: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: 100%;
+  max-width: 500px;
+  padding: 0 1rem;
+  pointer-events: none;
+}
+
+.flash-message {
+  pointer-events: auto;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  border: 1px solid transparent;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  animation: slide-in 0.3s ease-out;
+}
+
+/* Alert/Error */
+.flash-message.alert {
+  background-color: rgba(243, 139, 168, 0.95);
+  color: #11111b;
+  border-color: var(--ctp-red);
+}
+
+/* Notice/Success */
+.flash-message.notice {
+  background-color: rgba(166, 227, 161, 0.95);
+  color: #11111b;
+  border-color: var(--ctp-green);
+}
+
+.flash-prefix {
+  font-weight: 900;
+  margin-right: 0.5rem;
+}
+
+@keyframes slide-in {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+#error_explanation {
+  background-color: rgba(243, 139, 168, 0.1); /* Subtle Red tint */
+  border: 1px solid var(--ctp-red);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  font-family: 'JetBrains Mono', 'Space Mono', monospace;
+}
+
+#error_explanation h2 {
+  display: none; /* Hide the "X errors prohibited..." heading for a cleaner look */
+}
+
+#error_explanation ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#error_explanation ul li {
+  color: var(--ctp-red);
+  font-size: 0.813rem;
+  line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+/* Add a terminal prompt or dot before each error */
+#error_explanation ul li::before {
+  content: "[!]";
+  font-weight: bold;
+  flex-shrink: 0;
+}

@@ -42,11 +42,17 @@
   <div class="danger-zone">
     <h3 class="danger-title">Danger Zone</h3>
     <p>Once you delete your account, all your saved plans will be permanently removed.</p>
-    <%= button_to "Delete Account", registration_path(resource_name), 
-        data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, 
-        method: :delete, 
-        class: "btn-danger" %>
+    <%= button_to "Delete Account", user_registration_path, 
+    method: :delete,
+    class: "btn-danger",
+    data: { 
+      turbo_confirm: "Are you sure? This cannot be undone.",
+      turbo_method: :delete,
+      turbo_frame: "_top"
+    } %>
   </div>
+
+  
 
   <div class="auth-links">
     <%= link_to "← Back to Dashboard", :back %>

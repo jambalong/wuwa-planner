@@ -2,11 +2,11 @@
   <div class="navbar-container">
     <% if user_signed_in? %>
       <%= link_to authenticated_root_path, data: { turbo: false }, class: "brand-logo" do %>
-        PANGU<span>TERMINAL</span>
+        P<span>T</span>
       <% end %>
     <% else %>
       <%= link_to root_path, data: { turbo: false }, class: "brand-logo" do %>
-        PANGU<span>TERMINAL</span>
+        P<span>T</span>
       <% end %>
     <% end %>
 
