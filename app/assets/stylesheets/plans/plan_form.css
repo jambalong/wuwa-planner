@@ -23,11 +23,11 @@
 }
 
 .stat-section {
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .stat-label {
-  font-size: 10px;
+  font-size: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--ctp-text);
@@ -67,143 +67,6 @@
 .stat-input:focus-within {
   border-bottom-color: var(--ctp-mauve);
 }
-
-/* Forte/Skill Grid */
-.forte-grid {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 0.5rem;
-}
-
-.forte-column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-}
-
-.node-circle {
-  border-radius: 9999px; /* rounded-full */
-  border: 2px solid var(--ctp-overlay0);
-  background-color: var(--ctp-base);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--ctp-text);
-  transition: all 0.2s;
-}
-
-/* Sizing */
-.node-2 {
-  width: 2.5rem;
-  height: 2.5rem;
-  font-size: 1rem;
-}
-.node-1 {
-  width: 2.5rem;
-  height: 2.5rem;
-  font-size: 1rem;
-}
-
-.node-circle span {
-  color: var(--ctp-text);
-  display: flex;
-}
-
-/* The Core Node (3rd Column) Scaling */
-.inherent-node .node-2 span {
-  font-size: 1.5rem;
-  font-weight: 900;
-}
-
-.inherent-node .node-1 span {
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: var(--ctp-text);
-}
-
-/* Connection/Checked State */
-.peer:checked + .node-circle {
-  background-color: var(--ctp-mantle);
-  border-color: var(--ctp-mauve);
-  color: white;
-}
-
-.node-connector {
-  width: 2px;
-  height: 1.5rem;
-  background-color: var(--ctp-mauve);
-  margin-top: -1rem;
-  margin-bottom: -1rem;
-}
-
-.node-diamond {
-  width: 2.25rem;
-  height: 2.25rem;
-  background-color: var(--ctp-mantle);
-  border: 2px solid var(--ctp-mauve);
-  transform: rotate(45deg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  margin-bottom: 0.5rem;
-}
-
-.node-diamond span {
-  transform: rotate(-45deg);
-  color: var(--ctp-text);
-  font-size: 1.5rem;
-  font-weight: 900;
-}
-
-.skill-level-text {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--ctp-text);
-  text-transform: uppercase;
-  margin-top: 0.5rem;
-  width: 100%;
-  text-align: center;
-}
-
-/* Range Sliders Styling */
-.skill-slider {
-  width: 100%;
-  height: 8px;
-  background-color: var(--ctp-crust); /* Inactive track color */
-  border-radius: 9999px;
-  appearance: none;
-  cursor: pointer;
-  outline: none;
-  /* This creates the 'fill' effect */
-  background-image: linear-gradient(to right, var(--ctp-mauve) 0%, var(--ctp-mauve) var(--value, 0%), var(--ctp-crust) var(--value, 0%), var(--ctp-crust) 100%);
-}
-
-/* Base thumb style (The black circle with colored border) */
-.skill-slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  background: #000;
-  border: 2px solid var(--ctp-mauve);
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 0 5px rgba(0,0,0,0.5);
-}
-
-/* For Firefox support */
-.skill-slider::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  background: #000;
-  border: 2px solid var(--ctp-mauve);
-  border-radius: 50%;
-  cursor: pointer;
-}
-
 
 #plan-form-frame {
   flex-grow: 1;

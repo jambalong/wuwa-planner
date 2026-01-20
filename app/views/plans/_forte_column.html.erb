@@ -1,44 +1,55 @@
 <div class="forte-column <%= 'inherent-node' if config[:inherent] %>">
-
-  <%# Tier 2 Node %>
-  <label class="node-label cursor-pointer">
+  <%# Tier 2 Node - Diamond for inherent, Circle otherwise %>
+  <label class="node-label">
     <%= f.check_box "#{config[:key]}_node_2",
-                { class: "peer hidden" },
+                { class: "peer hidden", checked: true },
                 1,
                 0 %>
-    <div class="node-circle node-2">
-      <span>✱</span>
-    </div>
+    <% if config[:inherent] %>
+      <div class="node-diamond-top node-2">
+        <span>✱</span>
+      </div>
+    <% else %>
+      <div class="node-circle node-2">
+        <span>✱</span>
+      </div>
+    <% end %>
   </label>
-
+  
+  <%# Connector between Node 2 and Node 1 %>
   <div class="node-connector"></div>
 
-  <%# Tier 1 Node %>
-  <label class="node-label cursor-pointer">
+  <%# Tier 1 Node - Diamond for inherent, Circle otherwise %>
+  <label class="node-label">
     <%= f.check_box "#{config[:key]}_node_1",
-                { class: "peer hidden" },
+                { class: "peer hidden", checked: true },
                 1,
                 0 %>
-    <div class="node-circle node-1">
-      <span>✱</span>
-    </div>
+    <% if config[:inherent] %>
+      <div class="node-diamond-top node-1">
+        <span>✱</span>
+      </div>
+    <% else %>
+      <div class="node-circle node-1">
+        <span>✱</span>
+      </div>
+    <% end %>
   </label>
 
+  <%# Connector between Node 1 and Skill Diamond %>
   <div class="node-connector"></div>
 
-  <%# Skill Node (Diamond) %>
+  <%# Skill Node (Diamond - Always Active) %>
   <div class="node-diamond">
     <span>✱</span>
   </div>
 
-  <%# Skill Level Indicators (1 -> 10) %>
+  <%# Skill Level Indicators (Current → Target) %>
   <div class="skill-level-text">
-    <%# Current Value (connected to first slider) %>
     <span id="<%= config[:key] %>_current_val">
       <%= f.object.send("#{config[:key]}_current") %>
     </span>
     <span>→</span>
-    <%# Target Value (connected to second slider) %>
     <span id="<%= config[:key] %>_target_val">
       <%= f.object.send("#{config[:key]}_target") %>
     </span>
@@ -46,7 +57,6 @@
 
   <%# Slider Group Container %>
   <div class="flex flex-col gap-1 w-full items-center">
-
     <%# Current Slider %>
     <div data-controller="slider" class="w-full">
       <%= f.range_field "#{config[:key]}_current",
@@ -56,14 +66,11 @@
                       slider_target: "input",
                       action: "input->slider#update",
                     } %>
-
-      <%# Hidden label target to link to the span above %>
       <span
         class="hidden"
         data-slider-target="label"
         data-link-id="<%= config[:key] %>_current_val"
       ></span>
-
     </div>
 
     <%# Target Slider %>
@@ -75,15 +82,11 @@
                       slider_target: "input",
                       action: "input->slider#update",
                     } %>
-
-      <%# Hidden label target to link to the span above %>
       <span
         class="hidden"
         data-slider-target="label"
         data-link-id="<%= config[:key] %>_target_val"
       ></span>
-
     </div>
   </div>
-
 </div>

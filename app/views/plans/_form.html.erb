@@ -39,7 +39,7 @@
 
     <%# Ascension Section %>
     <div class="stat-section">
-      <h2 class=" stat-label ">Ascension</h2>
+      <h2 class=" stat-label ">Ascension Rank</h2>
       <div class="stat-input-row">
         <%= f.number_field :current_ascension_rank,
                        placeholder: "0",
@@ -48,7 +48,7 @@
                        data: {
                          action: "input->plan-form#clampAscensionRank",
                        } %>
-        <span class="text-white">→</span>
+        <span class="text-ctp-text">→</span>
         <%= f.number_field :target_ascension_rank,
                        placeholder: "6",
                        min: 0, max: 6,

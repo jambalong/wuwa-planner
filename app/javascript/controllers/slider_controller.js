@@ -8,21 +8,19 @@ export default class extends Controller {
   }
 
   update() {
-    const min = parseInt(this.inputTarget.min) || 1
-    const max = parseInt(this.inputTarget.max) || 10
-    const val = parseInt(this.inputTarget.value)
+    const input = this.inputTarget
+    const value = parseInt(input.value)
+    const linkId = this.labelTarget.dataset.linkId
+    const externalLabel = document.getElementById(linkId)
 
-    // Calculate percentage for CSS variable
-    const percent = Math.round(((val - min) / (max - min)) * 100)
-    this.inputTarget.style.setProperty('--value', `${percent}%`)
-
-    // Update the linked external label
-    if (this.hasLabelTarget) {
-      const externalId = this.labelTarget.dataset.linkId
-      const externalLabel = document.getElementById(externalId)
-      if (externalLabel) {
-        externalLabel.innerText = val
-      }
+    if (externalLabel) {
+      externalLabel.textContent = value
     }
+
+    const min = parseInt(input.min) || 1
+    const max = parseInt(input.max) || 10
+    const percentage = ((value - min) / (max - min)) * 100
+
+    input.style.setProperty('--slider-value', `${percentage}%`)
   }
 }
