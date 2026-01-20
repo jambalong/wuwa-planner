@@ -21,7 +21,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.5rem;
+  padding: 1.25rem;
   background-color: var(--ctp-mantle);
   border: 1px solid var(--ctp-surface2);
   border-radius: 1rem;
