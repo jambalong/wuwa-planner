@@ -181,4 +181,9 @@ main.no-scroll {
 
 #main_content {
   padding-bottom: 1rem;
+  font-family: var(--font-mono);
+}
+
+#modal {
+  font-family: var(--font-mono);
 }

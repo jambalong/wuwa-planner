@@ -19,11 +19,15 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .stat-section {
-  padding: 0.5rem;
+  background: var(--ctp-mantle);
+  border-radius: 0.5rem;
+  padding: 0.875rem;
+  text-align: center;
+  border: 1px solid var(--ctp-surface0);
 }
 
 .stat-label {
@@ -53,13 +57,6 @@
   text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-
-  outline: none;
-  border-bottom: 2px solid var(--ctp-surface1);
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
   transition: all 0.2s ease-in-out;
 }
 

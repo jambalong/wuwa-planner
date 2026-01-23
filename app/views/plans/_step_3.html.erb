@@ -1,17 +1,19 @@
 <%# locals: (plan:, subject:, subject_type:, errors: nil) %>
 
 <div class="config-container">
-  <header class="config-header">
-    <div>
-      <h2 class="modal-title">
+  <header class="modal-header">
+    <div class="config-header">
+      <div class="config-title">
         <%= subject.name %>
-        <span class="rarity-stars">
-          <%= subject.rarity == 5 ? "*****" : "****" %>
+        <span class="rarity-5 text-2xl">
+          <%= subject.rarity == 5 ? "★★★★★" : "★★★★" %>
         </span>
-      </h2>
-      <p class="config-subtitle">Configure
-        <%= subject_type %>
-        Plan</p>
+        
+      </div>
+
+      <p class="config-subtitle">
+        CONFIGURE <%= subject_type.upcase %> PLAN
+      </p>
     </div>
   </header>
 

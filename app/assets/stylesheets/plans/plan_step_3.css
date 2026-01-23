@@ -7,18 +7,22 @@
 
 .config-header {
   flex-shrink: 0;
-  margin: 1rem 1rem;
+  margin: 1rem 1rem 0rem;
 }
 
-.rarity-stars {
+.config-title {
   font-size: 1.5rem;
-  color: var(--ctp-peach);
+  font-weight: 800;
+  color: var(--ctp-text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
 }
 
 .config-subtitle {
-  font-size: 0.875rem;
-  color: var(--ctp-subtext0);
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--ctp-overlay1);
+  letter-spacing: 0.1em;
+  font-weight: 600;
 }

@@ -155,8 +155,8 @@
     to right,
     var(--ctp-mauve) 0%,
     var(--ctp-mauve) var(--slider-value, 10%),
-    var(--ctp-mantle) var(--slider-value, 10%),
-    var(--ctp-mantle) 100%
+    var(--ctp-surface0) var(--slider-value, 10%),
+    var(--ctp-surface0) 100%
   );
   transition: background 0.2s ease;
 }
@@ -314,10 +314,10 @@
 
   .forte-column:nth-child(2) .skill-level-text,
   .forte-column:nth-child(4) .skill-level-text {
-    margin-top: 1.25rem;
+    margin-top: 1.5rem;
   }
 
   .forte-column:nth-child(3) .skill-level-text {
-    margin-top: 2rem;
+    margin-top: 2.25rem;
   }
 }
