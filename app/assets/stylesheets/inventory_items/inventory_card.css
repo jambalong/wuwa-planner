@@ -100,7 +100,7 @@
   border-radius: 0.375rem;
   color: var(--ctp-text);
   text-align: center;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   padding: 0.375rem 0.25rem;
   font-size: 0.875rem;
   min-height: 32px;

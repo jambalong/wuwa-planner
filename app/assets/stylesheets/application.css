@@ -90,6 +90,10 @@ main.no-scroll {
   justify-content: center;
 }
 
+.icon-initials {
+  font-family: var(--font-mono);
+}
+
 .rarity-border-1 { border-bottom: 4px solid var(--ctp-overlay2); }
 .rarity-border-2 { border-bottom: 4px solid var(--ctp-green); }
 .rarity-border-3 { border-bottom: 4px solid var(--ctp-blue); }
@@ -181,9 +185,4 @@ main.no-scroll {
 
 #main_content {
   padding-bottom: 1rem;
-  font-family: var(--font-mono);
-}
-
-#modal {
-  font-family: var(--font-mono);
 }

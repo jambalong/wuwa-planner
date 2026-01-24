@@ -17,6 +17,7 @@
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--ctp-text);
+  font-family: var(--font-mono);
 }
 
 .planner-subtitle {
@@ -40,7 +41,7 @@
   text-transform: uppercase;
   text-decoration: none;
 
-  background-color: var(--ctp-crust);
+  background-color: var(--ctp-mantle);
   color: var(--ctp-text);
   padding: 0.75rem 1.25rem;
   border-radius: 0.5rem;

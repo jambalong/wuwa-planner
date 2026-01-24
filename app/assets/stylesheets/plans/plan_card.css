@@ -38,7 +38,7 @@
 }
 
 .quantity-number {
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: var(--font-mono);
   font-weight: bold;
   font-size: 0.75rem;
   color: var(--ctp-subtext0);

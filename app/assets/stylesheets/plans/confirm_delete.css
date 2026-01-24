@@ -23,6 +23,8 @@
   padding: 1.5rem;
   
   animation: zoomIn 200ms ease-out;
+
+  font-style: var(--font-mono);
 }
 
 @keyframes zoomIn {
