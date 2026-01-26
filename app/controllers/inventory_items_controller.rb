@@ -9,7 +9,7 @@ class InventoryItemsController < ApplicationController
     @selected_plan_id = params[:plan_id]
     @categories = Material.ordered_categories
     apply_filters
-    # compute_synthesis_data (placeholder)
+    compute_synthesis_data (placeholder)
   end
 
   def update
@@ -46,6 +46,16 @@ class InventoryItemsController < ApplicationController
   end
 
   def compute_synthesis_data
+    inventory_hash = @inventory_items.index_by(&:material_id).tranform_values(&:quantity)
+
+    if @selected_plan_id.present?
+      @selected_plan = @plans.find_by(id: @selected_plan_id)
+      requirements_hash = @selected_plan.plan_data["output"] || {}
+    else
+      requirements_hash = Plan.fetch_materials_summary(@plans)
+    end
+
+    @synthesis_results = SynthesisService.new(inventory_hash, requirements_hash).reconcile_inventory
   end
 
   def set_inventory_item
