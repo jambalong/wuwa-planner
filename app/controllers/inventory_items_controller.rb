@@ -14,6 +14,8 @@ class InventoryItemsController < ApplicationController
 
   def update
     if @inventory_item.update(inventory_item_params)
+      load_inventory_and_plans
+
       respond_to do |format|
         format.turbo_stream
         format.html { redirect_back fallback_location: inventory_items_path }

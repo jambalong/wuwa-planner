@@ -40,7 +40,7 @@ class PlansController < ApplicationController
 
       if @plan
         load_plans_and_materials
-        flash[:notice] = "Plan created successfully."
+        flash.now[:notice] = "Plan created successfully."
         respond_to do |format|
           format.turbo_stream
           format.html { redirect_to plans_path }
@@ -73,7 +73,7 @@ class PlansController < ApplicationController
     begin
       if @form.save(current_user, @guest_token, @plan)
         load_plans_and_materials
-        flash[:notice] = "Plan updated successfully."
+        flash.now[:notice] = "Plan updated successfully."
         respond_to do |format|
           format.turbo_stream
           format.html { redirect_to plans_path }
@@ -98,7 +98,7 @@ class PlansController < ApplicationController
   def destroy
     @plan.destroy
     load_plans_and_materials
-    flash[:notice] = "Plan deleted successfully."
+    flash.now[:notice] = "Plan deleted successfully."
 
     respond_to do |format|
       format.turbo_stream
