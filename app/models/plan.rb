@@ -2,7 +2,7 @@ class Plan < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :subject, polymorphic: true
 
-  scope :planned_subject_ids, ->(type) {
+  scope :subject_ids_for_type, ->(type) {
     where(subject_type: type).pluck(:subject_id)
   }
 
